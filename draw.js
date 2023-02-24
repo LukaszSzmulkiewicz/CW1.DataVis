@@ -49,6 +49,8 @@ function drawLineChart(containerName, lineChartData, headerText){
     const xAxis = d3
       .axisBottom(xScale)
       .tickSizeOuter(0)
+      .tickPadding(12)
+      .tickSizeInner(-height)
       // .ticks(20);
     const xAxisDraw = svg
       .append('g')
@@ -74,7 +76,7 @@ function drawLineChart(containerName, lineChartData, headerText){
       
       // Rotate xAxis ticks
     d3.selectAll(".xAxis .tick text")
-        .attr("transform", "rotate(-25)")
+        .attr("transform", "rotate(-22)")
     const yAxisDraw = svg
       .append('g')
       .attr('class', 'y axis')
