@@ -92,12 +92,13 @@ import { drawLineChart } from "./draw.js";
     
  
       d3.selectAll('path').on('mouseover', function(d, i) {
-      
-        d3.selectAll(`.${i.lblClass.toLowerCase()}`).style('stroke-width', 5)
-        d3.selectAll(`.${i.lblClass.toLowerCase()}`)
-          .transition()
-          .attr('x', 10)
-          .style('font-size', '1.2em')
+        if(i.lblClass!=null){
+          d3.selectAll(`.${i.lblClass.toLowerCase()}`).style('stroke-width', 5)
+          d3.selectAll(`.${i.lblClass.toLowerCase()}`)
+            .transition()
+            .attr('x', 10)
+            .style('font-size', '1.5em')
+        }
         
       })
       .on("mouseout", function(d, i) {
@@ -109,20 +110,21 @@ import { drawLineChart } from "./draw.js";
       });;
   
       d3.selectAll('text').on('mouseover', function(d, i) {
-        console.log("i", i)
-        d3.selectAll(`.${i.lblClass.toLowerCase()}`).style('stroke-width', 5)
+        if(i.lblClass){
+          d3.selectAll(`.${i.lblClass.toLowerCase()}`).style('stroke-width', 5)
         d3.selectAll(`.${i.lblClass.toLowerCase()}`)
           .transition()
           .attr('x', 10)
-          .style('font-size', '1.2em')
+          .style('font-size', '1.5em')
+        }
+        
       })
-      .on("mouseout", function(d, i) {
+      .on("mouseout", () => {
           d3.selectAll(`.line-series`).style('stroke-width', 2);
           d3.selectAll(`.series-labels`).style('stroke-width', 2)
             .transition()
             .attr('x', 4)
             .style('font-size', '0.8em');
-       
       });;
 
     }
@@ -132,25 +134,7 @@ import { drawLineChart } from "./draw.js";
     const continents = ["Asia", "Europe", "Africa", "N. America", "S. America", "Oceania"];
     const colors = ["dodgerblue", "darkorange", "green", "red", "purple", "blue"];
 
-    const mainData = data;
-    const asia = mainData.filter(data => data.continent === "Asia")
-    const europe = mainData.filter(data => data.continent === "Europe")
-    const africa = mainData.filter(data => data.continent === "Africa")
-    const northAmerica = mainData.filter(data => data.continent === "North America")
-    const southAmerica = mainData.filter(data => data.continent === "South America")
-    const oceania = mainData.filter(data => data.continent === "Oceania")
-
-    const arrayToFilter = [asia, europe, africa, 
-      northAmerica, southAmerica, oceania];
-    
-    const mainPreparedData = prepareLineChartData(arrayToFilter, continents, colors);
-
-  const filtered = filterDatesNew(mainPreparedData, "21/12/2020", "20/03/2021")
-
-    console.log("Before prepare", mainData)
-    console.log("After prepare", mainPreparedData)
-
-    
+   
     const dataWinter2020 = filterDates(data, "22/12/2019", "20/03/2020");
 
     const asiaWinter2020 = dataWinter2020.filter(data => data.continent === "Asia")
@@ -223,16 +207,42 @@ import { drawLineChart } from "./draw.js";
     const southAmericaAutumn2021 = dataAutumn2021.filter(data => data.continent === "South America")
     const oceaniaAutumn2021 = dataAutumn2021.filter(data => data.continent === "Oceania")
 
-    // const dataWinter2022 = filterDates(data, "21/12/2021", "20/03/2022");
-    // const dataSpring2022 = filterDates(data, "20/03/2022", "21/06/2022");
-    // const dataSummer2022 = filterDates(data, "21/06/2022", "23/09/2022");
-    // const dataAutumn2022 = filterDates(data, "23/09/2022", "21/12/2022");
+    const dataWinter2022 = filterDates(data, "21/12/2021", "20/03/2022");
 
-   
+    const asiaWinter2022 = dataWinter2022.filter(data => data.continent === "Asia")
+     const europeWinter2022 = dataWinter2022.filter(data => data.continent === "Europe")
+     const africaWinter2022 = dataWinter2022.filter(data => data.continent === "Africa")
+     const northAmericaWinter2022 = dataWinter2022.filter(data => data.continent === "North America")
+     const southAmericaWinter2022 = dataWinter2022.filter(data => data.continent === "South America")
+     const oceaniaWinter2022 = dataWinter2022.filter(data => data.continent === "Oceania")
+
+    const dataSpring2022 = filterDates(data, "20/03/2022", "21/06/2022");
+
+    const asiaSpr2022 = dataSpring2022.filter(data => data.continent === "Asia")
+    const europeSpr2022 = dataSpring2022.filter(data => data.continent === "Europe")
+    const africaSpr2022 = dataSpring2022.filter(data => data.continent === "Africa")
+    const northAmericaSpr2022 = dataSpring2022.filter(data => data.continent === "North America")
+    const southAmericaSpr2022 = dataSpring2022.filter(data => data.continent === "South America")
+    const oceaniaSpr2022 = dataSpring2022.filter(data => data.continent === "Oceania")
 
 
+    const dataSummer2022 = filterDates(data, "21/06/2022", "23/09/2022");
     
+    const asiaSummer2022 = dataSummer2022.filter(data => data.continent === "Asia")
+    const europeSummer2022 = dataSummer2022.filter(data => data.continent === "Europe")
+    const africaSummer2022 = dataSummer2022.filter(data => data.continent === "Africa")
+    const northAmericaSummer2022 = dataSummer2022.filter(data => data.continent === "North America")
+    const southAmericaSummer2022 = dataSummer2022.filter(data => data.continent === "South America")
+    const oceaniaSummer2022 = dataSummer2022.filter(data => data.continent === "Oceania")
 
+    const dataAutumn2022 = filterDates(data, "23/09/2022", "21/12/2022");
+
+    const asiaAutumn2022 = dataAutumn2022.filter(data => data.continent === "Asia")
+    const europeAutumn2022 = dataAutumn2022.filter(data => data.continent === "Europe")
+    const africaAutumn2022 = dataAutumn2022.filter(data => data.continent === "Africa")
+    const northAmericaAutumn2022 = dataAutumn2022.filter(data => data.continent === "North America")
+    const southAmericaAutumn2022 = dataAutumn2022.filter(data => data.continent === "South America")
+    const oceaniaAutumn2022 = dataAutumn2022.filter(data => data.continent === "Oceania")
 
 
     const winter2020 = [asiaWinter2020, europeWinter2020, africaWinter2020, northAmericaWinter2020, southAmericaWinter2020, oceaniaWinter2020];
@@ -249,10 +259,13 @@ import { drawLineChart } from "./draw.js";
     const autumn2021 = [asiaAutumn2021, europeAutumn2021, africaAutumn2021, 
         northAmericaAutumn2021, southAmericaAutumn2021, oceaniaAutumn2021];
       
-
-
-    console.log("asia Spr", asiaSpr2020)
-    console.log("Europe spr", europeSpr2020)
+    const winter2022 = [asiaWinter2022, europeWinter2022, africaWinter2022, northAmericaWinter2022, southAmericaWinter2022, oceaniaWinter2022];
+    const spring2022 = [asiaSpr2022, europeSpr2022, africaSpr2022, 
+      northAmericaSpr2022, southAmericaSpr2022, oceaniaSpr2022];
+    const summer2022 = [asiaSummer2022, europeSummer2022, africaSummer2022, northAmericaSummer2022, southAmericaSummer2022, oceaniaSummer2022];
+    const autumn2022 = [asiaAutumn2022, europeAutumn2022, africaAutumn2022, 
+      northAmericaAutumn2022, southAmericaAutumn2022, oceaniaAutumn2022];
+ 
 
   
     const chartDataWinter2020 = prepareLineChartData(winter2020, continents, colors);
@@ -260,21 +273,15 @@ import { drawLineChart } from "./draw.js";
     const chartDataWSummer2020 = prepareLineChartData(summer2020, continents, colors);
     const chartDataWAutumn2020 = prepareLineChartData(autumn2020, continents, colors);
 
-
-    
-
     const chartDataWinter2021 = prepareLineChartData(winter2021, continents, colors);
     const chartDataWSpring2021 = prepareLineChartData(spring2021, continents, colors);
     const chartDataWSummer2021 = prepareLineChartData(summer2021, continents, colors);
     const chartDataWAutumn2021 = prepareLineChartData(autumn2021, continents, colors);
 
-
-    
-    const dataForUpdates = {
-      twenty: [chartDataWinter2020, chartDataWSpring2020],
-      twentyone: [chartDataWinter2021, chartDataWSpring2021],
-      twentytwo: [],
-  }
+    const chartDataWinter2022 = prepareLineChartData(winter2022, continents, colors);
+    const chartDataWSpring2022 = prepareLineChartData(spring2022, continents, colors);
+    const chartDataWSummer2022 = prepareLineChartData(summer2022, continents, colors);
+    const chartDataWAutumn2022 = prepareLineChartData(autumn2022, continents, colors);
 
 
     // drawLineChart('line-chart-container', chartDataWinter2020, "Covid Data in Winter 2020");
@@ -317,10 +324,6 @@ import { drawLineChart } from "./draw.js";
     .scaleLinear()
     .range([height, 0]);
   
-
-  
-    // telling the generator where it can find x and y positions 
-
       // Draw y axis.
       const yAxis = d3
       .axisLeft(yScale)
@@ -376,9 +379,6 @@ import { drawLineChart } from "./draw.js";
   .scaleLinear()
   .range([height, 0]);
 
-
-
-  // telling the generator where it can find x and y positions 
 
     // Draw y axis.
     const yAxis1 = d3
@@ -439,7 +439,7 @@ import { drawLineChart } from "./draw.js";
 
     // Draw y axis.
     const yAxis2 = d3
-    .axisLeft(yScale1)
+    .axisLeft(yScale2)
     .ticks(20)
     .tickFormat(function(d) {
       if (d >= 1000000000) {
@@ -520,12 +520,7 @@ import { drawLineChart } from "./draw.js";
         // Click handler. 
         function click(){
           
-          const dataset = dataForUpdates[this.dataset.name];
-          console.log("button clicked",this.dataset.name)
-          
           const name = this.dataset.name;
-          const data_container1 = dataset[0];
-          const data_container2 = dataset[1]
         
           if(name === "twenty"){
             update(chartDataWinter2020, xScale, yScale, svg, xAxis, yAxis);
@@ -533,13 +528,19 @@ import { drawLineChart } from "./draw.js";
             update(chartDataWSummer2020, xScale2, yScale2, svg2, xAxis2, yAxis2);
             update(chartDataWAutumn2020, xScale3, yScale3, svg3, xAxis3, yAxis3)
 
-            
-
           }else if (name === "twentyone") {
             update(chartDataWinter2021, xScale, yScale, svg, xAxis, yAxis)
             update(chartDataWSpring2021, xScale1, yScale1, svg1, xAxis1, yAxis1)
             update(chartDataWSummer2021, xScale2, yScale2, svg2, xAxis2, yAxis2)
             update(chartDataWAutumn2021, xScale3, yScale3, svg3, xAxis3, yAxis3)
+
+
+
+          }else if (name === "twentytwo") {
+            update(chartDataWinter2022, xScale, yScale, svg, xAxis, yAxis)
+            update(chartDataWSpring2022, xScale1, yScale1, svg1, xAxis1, yAxis1)
+            update(chartDataWSummer2022, xScale2, yScale2, svg2, xAxis2, yAxis2)
+            update(chartDataWAutumn2022, xScale3, yScale3, svg3, xAxis3, yAxis3)
 
 
 

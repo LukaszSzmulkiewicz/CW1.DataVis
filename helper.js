@@ -25,7 +25,7 @@ function filterDates(data, startDate, endDate) {
   }
   
   function prepareLineChartData(data, continents, colors){
-
+    console.log("data in the prepare lineChartData",data)
 
     const groupBy = d => d.date;
     const reduceTotalCases = values => d3.sum(values, leaf => leaf.total_cases);
@@ -68,9 +68,7 @@ function filterDates(data, startDate, endDate) {
     const datesOceania = totalCasesOceania.map(d =>d[0]);
 
     const dates  = datesAsia.concat(datesEurope, datesAfrica, datesNAmerica, datesSAmerica, datesOceania);
-    console.log("Africa ", totalCasesAfrica)
-    console.log("Oceania ", totalCasesOceania)
-    console.log("dates", dates[dates.length-1])
+
     const yValuesMax = [
       totalCasesAsia[totalCasesAsia.length-1][1],
       totalCasesEurope[totalCasesEurope.length-1][1],
@@ -109,7 +107,7 @@ function filterDates(data, startDate, endDate) {
             area:`area${continents[0].toLowerCase()}`,
             color: `${colors[0]}`,
             values: totalCasesAsia.map(d =>({ date: d[0], value: d[1] })),
-            lblPosition: [4,-10],
+            lblPosition: [4,-20],
           },
           {
             name: `${continents[1]}`,
@@ -117,7 +115,7 @@ function filterDates(data, startDate, endDate) {
             area:`area${continents[1].toLowerCase()}`,
             color: `${colors[1]}`,
             values: totalCasesEurope.map(d =>({ date: d[0], value: d[1] })),
-            lblPosition: [4,2],
+            lblPosition: [4,-6],
 
           },
           {
@@ -125,7 +123,7 @@ function filterDates(data, startDate, endDate) {
             lblClass:`${continents[2]}`,
             color: `${colors[2]}`,
             values: totalCasesAfrica.map(d =>({ date: d[0], value: d[1] })),
-            lblPosition: [4,14],
+            lblPosition: [4,10],
 
           },
           {
@@ -133,7 +131,7 @@ function filterDates(data, startDate, endDate) {
             lblClass:`namerica`,
             color: `${colors[3]}`,
             values: totalCasesNorthAmerica.map(d =>({ date: d[0], value: d[1] })),
-            lblPosition: [4,26],
+            lblPosition: [4,24],
 
           },
           {
@@ -141,7 +139,7 @@ function filterDates(data, startDate, endDate) {
             lblClass:`samerica`,
             color: `${colors[4]}`,
             values: totalCasesSAmerica.map(d =>({ date: d[0], value: d[1] })),
-            lblPosition: [4,38],
+            lblPosition: [4,40],
 
           },
           {
@@ -149,7 +147,7 @@ function filterDates(data, startDate, endDate) {
             lblClass:`oceania`,
             color: `${colors[5]}`,
             values: totalCasesOceania.map(d =>({ date: d[0], value: d[1] })),
-            lblPosition: [4,50],
+            lblPosition: [4,54],
           }
         ],
           // dates object (array of possible dates)
