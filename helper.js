@@ -25,8 +25,6 @@ function filterDates(data, startDate, endDate) {
   }
   
   function prepareLineChartData(data, continents, colors){
-    console.log("data in the prepare lineChartData",data)
-
     const groupBy = d => d.date;
     const reduceTotalCases = values => d3.sum(values, leaf => leaf.total_cases);
     const totalCasesMapAsia = d3.rollup(data[0], reduceTotalCases, groupBy);
@@ -154,12 +152,220 @@ function filterDates(data, startDate, endDate) {
           dates: dates,
           yMin: yMin,
           yMax: yMax,
-        
+          data: data,
       }
       
       return lineData;
   
   } 
+  
+  function formatTicks(d) {
+    if (d >= 1000000000) {
+        return (d / 1000000000).toFixed(1) + "bl";
+    } else if (d >= 1000000) {
+        return (d / 1000000).toFixed(1) + "mil";
+    } else if (d>= 1000){
+        return (d/1000).toFixed(0)+ "k";
+    } else {
+      return d
+    }
+}
+function prepareScatterPlotData(data){
+  const asia = {}
+  data.data[0].forEach((entry) => {
+    if (entry.location) {
+      asia[entry.location] = entry;
+    }
+  });
+  const asiaTop5 = Object.entries(asia)
+  .sort(([, a], [, b]) => b.total_cases - a.total_cases).slice(0,5);
+  for (let i = 0; i < asiaTop5.length; i++) {
+    asiaTop5[i][1].label = "asia"
+    asiaTop5[i][1].color = "dodgerblue"
+
+    
+}
+  const asiaObjects = []
+  console.log("Asia", asia)
+  console.log("Asia top 5", asiaTop5);
+  const asiaCasesTotal = asiaTop5.map(d=> d[1].total_cases_per_million);
+  const asiaGDPTotal = asiaTop5.map(d=> d[1].gdp_per_capita);
+  for (const [ , obj ] of asiaTop5) {
+    asiaObjects.push(obj)
+  }
+  console.log("Asia objects", asiaObjects)
+
+  const europe = {}
+  data.data[1].forEach((entry) => {
+    if (entry.location) {
+      europe[entry.location] = entry;
+    }
+  });
+  const europeTop5 = Object.entries(europe)
+  .sort(([, a], [, b]) => b.total_cases - a.total_cases).slice(0,5);
+  console.log("europe top 5", europeTop5);
+  for (let i = 0; i < europeTop5.length; i++) {
+    europeTop5[i][1].label = "europe"
+    europeTop5[i][1].color = "darkorange"
+    
+    // add new property to each object
+}
+  const europeObjects = []
+  console.log("europe", europe)
+  const europeCasesTotal = europeTop5.map(d=> d[1].total_cases_per_million);
+  const europeGDPTotal = europeTop5.map(d=> d[1].gdp_per_capita);
+  for (const [ , obj ] of europeTop5) {
+    europeObjects.push(obj)
+  }
+  console.log("europe objects", europeObjects)
+
+  const africa = {}
+  data.data[2].forEach((entry) => {
+    if (entry.location) {
+      africa[entry.location] = entry;
+    }
+  });
+  const africaTop5 = Object.entries(africa)
+  .sort(([, a], [, b]) => b.total_cases - a.total_cases).slice(0,5);
+  console.log("europe top 5", africaTop5);
+  for (let i = 0; i < africaTop5.length; i++) {
+    africaTop5[i][1].label = "africa"
+    africaTop5[i][1].color = "green"
+    
+    // add new property to each object
+}
+  const africaObjects = []
+  console.log("europe", europe)
+  const africaCasesTotal = africaTop5.map(d=> d[1].total_cases_per_million);
+  const africaGDPTotal = africaTop5.map(d=> d[1].gdp_per_capita);
+  for (const [ , obj ] of africaTop5) {
+    africaObjects.push(obj)
+  }
+  console.log("europe objects", africaObjects)
+
+  const nAmerica = {}
+  data.data[3].forEach((entry) => {
+    if (entry.location) {
+      nAmerica[entry.location] = entry;
+    }
+  });
+  const nAmericaTop5 = Object.entries(nAmerica)
+  .sort(([, a], [, b]) => b.total_cases - a.total_cases).slice(0,5);
+  console.log("nAmerica top 5", nAmericaTop5);
+  for (let i = 0; i < nAmericaTop5.length; i++) {
+    nAmericaTop5[i][1].label = "namerica"
+    nAmericaTop5[i][1].color = "red"
+    
+    // add new property to each object
+}
+  const nAmericaObjects = []
+  console.log("nAmerica", nAmerica)
+  const nAmericaCasesTotal = nAmericaTop5.map(d=> d[1].total_cases_per_million);
+  const nAmericaGDPTotal = nAmericaTop5.map(d=> d[1].gdp_per_capita);
+  for (const [ , obj ] of nAmericaTop5) {
+    nAmericaObjects.push(obj)
+  }
+  console.log("nAmerica objects", nAmericaObjects)
+
+  const sAmerica = {}
+  data.data[4].forEach((entry) => {
+    if (entry.location) {
+      nAmerica[entry.location] = entry;
+    }
+  });
+  const sAmericaTop5 = Object.entries(nAmerica)
+  .sort(([, a], [, b]) => b.total_cases - a.total_cases).slice(0,5);
+  console.log("nAmerica top 5", nAmericaTop5);
+  for (let i = 0; i < nAmericaTop5.length; i++) {
+    sAmericaTop5[i][1].label = "samerica"
+    sAmericaTop5[i][1].color = "purple"
+    
+    // add new property to each object
+}
+  const sAmericaObjects = []
+  console.log("sAmerica", sAmerica)
+  const sAmericaCasesTotal = sAmericaTop5.map(d=> d[1].total_cases_per_million);
+  const sAmericaGDPTotal = sAmericaTop5.map(d=> d[1].gdp_per_capita);
+  for (const [ , obj ] of sAmericaTop5) {
+    sAmericaObjects.push(obj)
+  }
+  console.log("nAmerica objects", sAmericaObjects)
+  const oceania = {}
+  data.data[5].forEach((entry) => {
+    if (entry.location) {
+      oceania[entry.location] = entry;
+    }
+  });
+  const oceaniaTop5 = Object.entries(oceania)
+  .sort(([, a], [, b]) => b.total_cases - a.total_cases).slice(0,5);
+  console.log("nAmerica top 5", oceaniaTop5);
+  for (let i = 0; i < oceaniaTop5.length; i++) {
+    oceaniaTop5[i][1].label = "oceania"
+    oceaniaTop5[i][1].color = "blue"
+    
+    // add new property to each object
+}
+  const oceaniaObjects = []
+  console.log("sAmerica", oceania)
+  const oceaniaCasesTotal = oceaniaTop5.map(d=> d[1].total_cases_per_million);
+  const oceaniaGDPTotal = oceaniaTop5.map(d=> d[1].gdp_per_capita);
+  for (const [ , obj ] of oceaniaTop5) {
+    oceaniaObjects.push(obj)
+  }
+  console.log("oceania objects", oceaniaObjects)
+
+  
+const minMaxCases  = asiaCasesTotal.concat(europeCasesTotal, africaCasesTotal, nAmericaCasesTotal, sAmericaCasesTotal, oceaniaCasesTotal);
+const minMaxGDP  = asiaGDPTotal.concat(europeGDPTotal, africaGDPTotal, nAmericaGDPTotal, sAmericaGDPTotal, oceaniaGDPTotal);
 
 
-  export { filterDates, prepareLineChartData, filterDatesNew}
+  console.log("asia top", asiaTop5[0])
+  const lineData = {
+    series: [
+      {
+        total_cases_per_million: asiaTop5.map(d=>(d[1].total_cases_per_million)),
+        objects: asiaObjects,
+        lblPosition: [4,-20],
+      },
+      {
+        total_cases_per_million: europeTop5.map(d=>(d[1].total_cases_per_million)),
+        objects: europeObjects,
+        lblPosition: [4,-20],
+      },
+      {
+        total_cases_per_million: africaTop5.map(d=>(d[1].total_cases_per_million)),
+        objects: africaObjects,
+        lblPosition: [4,-20],
+      },
+      {
+        total_cases_per_million: nAmericaTop5.map(d=>(d[1].total_cases_per_million)),
+        objects: nAmericaObjects,
+        lblPosition: [4,-20],
+      },
+      {
+        total_cases_per_million: sAmericaTop5.map(d=>(d[1].total_cases_per_million)),
+        objects: sAmericaObjects,
+        lblPosition: [4,-20],
+      },
+      {
+        total_cases_per_million: oceaniaTop5.map(d=>(d[1].total_cases_per_million)),
+        objects: oceaniaObjects,
+        lblPosition: [4,-20],
+      },
+   
+    ],
+
+    minMaxCases: minMaxCases,
+    minMaxGDP: minMaxGDP
+      // dates object (array of possible dates)
+      // dates: dates,
+      // yMin: yMin,
+      // yMax: yMax,
+      // data: data,
+  }
+  return lineData;
+  
+}
+
+
+  export { filterDates, prepareLineChartData, prepareScatterPlotData ,filterDatesNew, formatTicks}
