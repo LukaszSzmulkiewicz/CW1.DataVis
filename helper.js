@@ -270,13 +270,13 @@ function prepareScatterPlotData(data){
   const sAmerica = {}
   data.data[4].forEach((entry) => {
     if (entry.location) {
-      nAmerica[entry.location] = entry;
+      sAmerica[entry.location] = entry;
     }
   });
-  const sAmericaTop5 = Object.entries(nAmerica)
+  const sAmericaTop5 = Object.entries(sAmerica)
   .sort(([, a], [, b]) => b.total_cases - a.total_cases).slice(0,5);
-  console.log("nAmerica top 5", nAmericaTop5);
-  for (let i = 0; i < nAmericaTop5.length; i++) {
+  console.log("nAmerica top 5", sAmericaTop5);
+  for (let i = 0; i < sAmericaTop5.length; i++) {
     sAmericaTop5[i][1].label = "samerica"
     sAmericaTop5[i][1].color = "purple"
     

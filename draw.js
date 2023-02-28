@@ -98,14 +98,19 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
     exit => exit.remove()
   )
   
-
-    d3.selectAll('path').on('mouseover', function(d, i) {
+    // path hover
+    d3.selectAll('path')
+    .on('mouseover', function(d, i) {
       if(i.lblClass!=null){
         d3.selectAll(`.${i.lblClass.toLowerCase()}`).style('stroke-width', 5)
         d3.selectAll(`.${i.lblClass.toLowerCase()}`)
           .transition()
           .attr('x', 10)
           .style('font-size', '1.5em')
+        d3.selectAll(`.circle-series.${i.lblClass.toLowerCase()}`)
+        .transition()
+        .attr('r', 7)
+        .attr('fill-opacity', 1)
       }
       
     })
@@ -114,16 +119,25 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
         d3.selectAll(`.series-labels`).style('stroke-width', 2)
           .transition()
           .style('font-size', '0.8em')
-          .attr('x', 4);
-    });;
+          .attr('x', 7);
+        d3.selectAll(`.circle-series`)
+        .transition()
+        .attr('r', 3)
+        .attr('fill-opacity', 0.7)
+    });
 
-    d3.selectAll('text').on('mouseover', function(d, i) {
+    d3.selectAll('text')
+    .on('mouseover', function(d, i) {
       if(i.lblClass){
         d3.selectAll(`.${i.lblClass.toLowerCase()}`).style('stroke-width', 5)
-      d3.selectAll(`.${i.lblClass.toLowerCase()}`)
+        d3.selectAll(`.${i.lblClass.toLowerCase()}`)
         .transition()
         .attr('x', 10)
         .style('font-size', '1.5em')
+        d3.selectAll(`.circle-series.${i.lblClass.toLowerCase()}`)
+        .transition()
+        .attr('r', 6)
+        .attr('fill-opacity', 1)
       }
       
     })
@@ -133,7 +147,14 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
           .transition()
           .attr('x', 4)
           .style('font-size', '0.8em');
-    });;
+          d3.selectAll(`.circle-series`)
+          .transition()
+          .attr('r', 3)
+          .attr('fill-opacity', 0.7)
+
+        
+    });
+    
 
   }
 

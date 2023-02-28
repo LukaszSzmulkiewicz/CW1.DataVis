@@ -3,7 +3,7 @@ import { updateLineChart } from "./draw.js";
 
 function addScatterCirc(svg, xScaleScatter, yScaleScatter, data){
   svg.selectAll(`.circle-series`)
-      .data(data,  function(d){return d})
+      .data(data,  function(d){return d.location})
       .join(
         enter => enter
         .append("circle")
@@ -15,7 +15,7 @@ function addScatterCirc(svg, xScaleScatter, yScaleScatter, data){
           .attr('r', 3)
           .style('fill', d => d.color)
           // makes the circles lighter so can distinguish one from the other when one is positioned on the other
-          .attr('fill-opacity', 0.6),
+          .attr('fill-opacity', 0.7),
           
           
         update => update
