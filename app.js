@@ -2,7 +2,6 @@ import {filterDates, prepareLineChartData, formatTicks, prepareScatterPlotData, 
 import { drawLineChart, updateLineChart } from "./draw.js";
 
 function addScatterCirc(svg, xScaleScatter, yScaleScatter, data){
-  console.log("data in circle", data)
   svg
       .append('g')
       .selectAll("circle")
@@ -17,7 +16,18 @@ function addScatterCirc(svg, xScaleScatter, yScaleScatter, data){
           .attr('r', 3)
           .style('fill', d => d.color)
           // makes the circles lighter so can distinguish one from the other when one is positioned on the other
-          .attr('fill-opacity', 0.6)
+          .attr('fill-opacity', 0.6),
+          
+          
+        update => update
+          .transition()
+          .duration(1500)
+          .attr('cx', d => xScaleScatter(d.gdp_per_capita))
+          .attr('cy', d => yScaleScatter(d.total_cases_per_million))
+          .attr('r', 3)
+          .style('fill', d => d.color),
+    
+        exit => exit.remove()
       
       
 }
