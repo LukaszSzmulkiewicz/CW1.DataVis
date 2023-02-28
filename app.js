@@ -1,5 +1,5 @@
 import {filterDates, prepareLineChartData, formatTicks, prepareScatterPlotData, filterDatesNew} from "./helper.js";
-import { drawLineChart, updateLineChart } from "./draw.js";
+import { updateLineChart } from "./draw.js";
 
 function addScatterCirc(svg, xScaleScatter, yScaleScatter, data){
   svg
