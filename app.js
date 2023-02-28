@@ -2,11 +2,10 @@ import {filterDates, prepareLineChartData, formatTicks, prepareScatterPlotData, 
 import { updateLineChart } from "./draw.js";
 
 function addScatterCirc(svg, xScaleScatter, yScaleScatter, data){
-  svg
-      .append('g')
-      .selectAll("circle")
+  svg.selectAll(`.circle-series`)
       .data(data,  function(d){return d})
-      .enter()
+      .join(
+        enter => enter
         .append("circle")
           .transition()
           .duration(1500)
@@ -28,6 +27,8 @@ function addScatterCirc(svg, xScaleScatter, yScaleScatter, data){
           .style('fill', d => d.color),
     
         exit => exit.remove()
+
+      )
       
       
 }
@@ -291,6 +292,8 @@ function updateScatterPlot (data, containerName){
 
     // scatter plot data
     const scatterDataWinter2020 = prepareScatterPlotData(chartDataWinter2020);
+    const scatterDataWinter2021 = prepareScatterPlotData(chartDataWinter2021);
+
 
     
     const margin = { top: 80, right: 60, bottom: 40, left: 60 };
@@ -535,11 +538,9 @@ function updateScatterPlot (data, containerName){
             const yExtentScatter = d3
             .extent(scatterDataWinter2020.minMaxCases)
         const xScaleScatter = d3.scaleLinear()
-        .domain(xExtentsScatter)
         .range([0, width])
 
         const yScaleScatter = d3.scaleLinear()
-            .domain(yExtentScatter)
             .range([height, 0]);
 
             const xAxisScatter = d3
@@ -572,9 +573,19 @@ function updateScatterPlot (data, containerName){
              .call(yAxisScatter)
              // .call(addLabel, 'Revenue', 5)
 
-        function drawScatterPlot (data, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter){
+        function updateScatterPlot (data, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter){
           console.log("data in the scatter", data)
-   
+          xScaleScatter.domain(d3.extent(data.minMaxGDP));
+          svgScatter.selectAll(".xAxis")
+             .transition()
+             .duration(1000)
+             .call(xAxisScatter); 
+             
+          yScaleScatter.domain(d3.extent(data.minMaxCases));
+          svgScatter.selectAll(".yAxis")
+             .transition()
+             .duration(1000)
+             .call(yAxisScatter);
                
            
           // // Draw header.
@@ -629,12 +640,16 @@ function updateScatterPlot (data, containerName){
           //   update(chartDataWSummer2020, xScale2, yScale2, svg2, xAxis2, yAxis2);
           //   update(chartDataWAutumn2020, xScale3, yScale3, svg3, xAxis3, yAxis3)
 
+          updateScatterPlot(scatterDataWinter2020, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter);
+
+
           }else if (name === "twentyone") {
             updateLineChart(chartDataWinter2021, xScale, yScale, svg, xAxisScatter, yAxisScatter)
             // updateScatterPlot(scatterDataWinter2020, '.scatter-plot-container')
           //   update(chartDataWSpring2021, xScale1, yScale1, svg1, xAxis1, yAxis1)
           //   update(chartDataWSummer2021, xScale2, yScale2, svg2, xAxis2, yAxis2)
           //   update(chartDataWAutumn2021, xScale3, yScale3, svg3, xAxis3, yAxis3)
+          updateScatterPlot(scatterDataWinter2021, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter)
 
           }
           // else if (name === "twentytwo") {
@@ -654,7 +669,7 @@ function updateScatterPlot (data, containerName){
     // update(chartDataWSummer2020, xScale2, yScale2, svg2, xAxis2, yAxis2)
     // update(chartDataWAutumn2020, xScale3, yScale3, svg3, xAxis3, yAxis3)
     // function drawScatterPlot(data){
-    drawScatterPlot(scatterDataWinter2020, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter);
+    updateScatterPlot(scatterDataWinter2020, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter);
    
     
 
