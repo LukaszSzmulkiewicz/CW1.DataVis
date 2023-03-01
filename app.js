@@ -1,134 +1,7 @@
 import {filterDates, prepareLineChartData, formatTicks, prepareScatterPlotData, filterDatesNew} from "./helper.js";
-import { updateLineChart } from "./draw.js";
-
-function addScatterCirc(svg, xScaleScatter, yScaleScatter, data){
-  svg.selectAll(`.circle-series`)
-      .data(data,  function(d){return d.location})
-      .join(
-        enter => enter
-        .append("circle")
-          .transition()
-          .duration(1500)
-          .attr('class', d => `circle-series ${d.label.toLowerCase()}`)
-          .attr('cx', d => xScaleScatter(d.gdp_per_capita))
-          .attr('cy', d => yScaleScatter(d.total_cases_per_million))
-          .attr('r', 3)
-          .style('fill', d => d.color)
-          // makes the circles lighter so can distinguish one from the other when one is positioned on the other
-          .attr('fill-opacity', 0.7),
-          
-          
-        update => update
-          .transition()
-          .duration(1500)
-          .attr('cx', d => xScaleScatter(d.gdp_per_capita))
-          .attr('cy', d => yScaleScatter(d.total_cases_per_million))
-          .attr('r', 3)
-          .style('fill', d => d.color),
-    
-        exit => exit.remove()
-
-      )
-      
-      
-}
+import { updateLineChart, updateScatterPlot } from "./draw.js";
 
 
-
-function updateScatterPlot (data, containerName){
-  // dimentions
-  const margin = { top: 80, right: 60, bottom: 40, left: 60 };
-  const width = 450 - margin.right - margin.left;
-  const height = 380 - margin.top - margin.bottom;
-    // Scales.
-    const xExtentsScatter = d3
-    .extent(data.minMaxGDP)
-    // mapping over the extent values and slightly changing their size;
-    // .map((d, i) => (i===0? d * 0.95 : d * 1.05))
-    .domain(xExtentsScatter)
-    .range([0, width])
-
-  const yExtentScatter = d3
-  .extent(data.minMaxCases)
-  // // .map((d, i) => (i === 0 ? d * 0.1 : d * 1.1));
-  const yScaleScatter = d3
-    .scaleLinear()
-    .domain(yExtentScatter)
-    .range([height, 0]);
-  // Draw base.
-  const svgScatter = d3
-    .select(`${containerName}`)
-    
-
-    const xAxisScatter = d3
-    .axisBottom(xScaleScatter)
-    // to specify number of ticks
-    .ticks(10)
-    .tickFormat(formatTicks)
-    .tickSizeInner(-height)
-    .tickSizeOuter(0)
-
-  // // Draw header.
-  // const header = svg
-  //   .append('g')
-  //   .attr('class', 'scatter-header')
-  //   .attr('transform', `translate(0, ${-margin.top * 0.5 })`)
-  //   .append('text')
-  // // first title
-  // header.append('tspan').text('Budget vs Revenue in $US')
-  // // second title
-  // header
-  //   .append('tspan')
-  //   .attr('x', 0)
-  //   .attr('dy', '1.5em')
-  //   .style('font-size', '0.8em')
-  //   // choosing color of the text 
-  //   .style('fill', '#555')
-  //   .text('Top 100 films by budget, 2000-2009')
-  // // Draw x axis.
-
-
-  // // function copies last value on from the axis and turns it into a label 
-
-  const xAxisDrawScatter = svgScatter
-    .append('g')
-    .attr('class', 'xAxis')
-    .attr('transform', `translate(0, ${height})`)
-    .call(xAxisScatter)
-    // calling add label function and passing the parameters 
-    // .call(addLabel, 'Budget', 25);
-
-  // // moving the text away from the bottom axis 
-  // xAxisDraw.selectAll('text').attr('dy', '1em');
-    
-    // Draw y axis.
-    const yAxisScatter = d3
-    .axisLeft(yScaleScatter)
-    // to specify number of ticks
-    .ticks(10)
-    .tickFormat(formatTicks)
-    .tickSizeInner(-width)
-    .tickSizeOuter(0)
-
-    // doesn't need a translate since it starts at the origin  
-  const yAxisDrawScatter = svgScatter
-    .append('g')
-    .attr('class', 'yAxis')
-    .call(yAxisScatter)
-    // .call(addLabel, 'Revenue', 5)
-
-
-  // Draw scatter 
-    addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[0].objects);
-    addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[1].objects);
-    addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[2].objects);
-    addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[3].objects);
-    addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[4].objects);
-    addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[5].objects);
-}
-
-
- 
   // Main function.
   function ready(data) {
 
@@ -524,6 +397,8 @@ function updateScatterPlot (data, containerName){
       ////////////////////////////////////////////////////////////////
       ///////////Scatter plots
       //////////////////////////////////////////////////
+      /// Scatter plt 1
+      // ///////////////////////////
       const svgScatter = d3
       .select(`.scatter-plot-container`)
       .append('svg')
@@ -573,61 +448,11 @@ function updateScatterPlot (data, containerName){
              .call(yAxisScatter)
              // .call(addLabel, 'Revenue', 5)
 
-        function updateScatterPlot (data, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter){
-          console.log("data in the scatter", data)
-          xScaleScatter.domain(d3.extent(data.minMaxGDP));
-          svgScatter.selectAll(".xAxis")
-             .transition()
-             .duration(1000)
-             .call(xAxisScatter); 
-             
-          yScaleScatter.domain(d3.extent(data.minMaxCases));
-          svgScatter.selectAll(".yAxis")
-             .transition()
-             .duration(1000)
-             .call(yAxisScatter);
-               
-           
-          // // Draw header.
-          // const header = svg
-          //   .append('g')
-          //   .attr('class', 'scatter-header')
-          //   .attr('transform', `translate(0, ${-margin.top * 0.5 })`)
-          //   .append('text')
-          // // first title
-          // header.append('tspan').text('Budget vs Revenue in $US')
-          // // second title
-          // header
-          //   .append('tspan')
-          //   .attr('x', 0)
-          //   .attr('dy', '1.5em')
-          //   .style('font-size', '0.8em')
-          //   // choosing color of the text 
-          //   .style('fill', '#555')
-          //   .text('Top 100 films by budget, 2000-2009')
-          // // Draw x axis.
-        
-        
-          // // function copies last value on from the axis and turns it into a label 
-        
-         
-            // calling add label function and passing the parameters 
-            // .call(addLabel, 'Budget', 25);
-        
-          // // moving the text away from the bottom axis 
-          // xAxisDraw.selectAll('text').attr('dy', '1em');
-            
-         
-        
-        
-          // Draw scatter 
-            addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[0].objects);
-            addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[1].objects);
-            addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[2].objects);
-            addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[3].objects);
-            addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[4].objects);
-            addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[5].objects);
-        }
+      //////////////////////////////////////////////////
+      /// Scatter plt 1
+      // ///////////////////////////
+
+
      
         // Click handler. 
         function click(){

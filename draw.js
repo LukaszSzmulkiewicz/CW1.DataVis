@@ -158,5 +158,94 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
 
   }
 
+  function updateScatterPlot (data, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter){
+    console.log("data in the scatter", data)
+    xScaleScatter.domain(d3.extent(data.minMaxGDP));
+    svgScatter.selectAll(".xAxis")
+       .transition()
+       .duration(1000)
+       .call(xAxisScatter); 
+       
+    yScaleScatter.domain(d3.extent(data.minMaxCases));
+    svgScatter.selectAll(".yAxis")
+       .transition()
+       .duration(1000)
+       .call(yAxisScatter);
+         
+     
+    // // Draw header.
+    // const header = svg
+    //   .append('g')
+    //   .attr('class', 'scatter-header')
+    //   .attr('transform', `translate(0, ${-margin.top * 0.5 })`)
+    //   .append('text')
+    // // first title
+    // header.append('tspan').text('Budget vs Revenue in $US')
+    // // second title
+    // header
+    //   .append('tspan')
+    //   .attr('x', 0)
+    //   .attr('dy', '1.5em')
+    //   .style('font-size', '0.8em')
+    //   // choosing color of the text 
+    //   .style('fill', '#555')
+    //   .text('Top 100 films by budget, 2000-2009')
+    // // Draw x axis.
+  
+  
+    // // function copies last value on from the axis and turns it into a label 
+  
+   
+      // calling add label function and passing the parameters 
+      // .call(addLabel, 'Budget', 25);
+  
+    // // moving the text away from the bottom axis 
+    // xAxisDraw.selectAll('text').attr('dy', '1em');
+      
+   
+  
+  
+    // Draw scatter 
+      addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[0].objects);
+      addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[1].objects);
+      addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[2].objects);
+      addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[3].objects);
+      addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[4].objects);
+      addScatterCirc(svgScatter, xScaleScatter, yScaleScatter, data.series[5].objects);
+  }
 
-export { updateLineChart }
+  function addScatterCirc(svg, xScaleScatter, yScaleScatter, data){
+    svg.selectAll(`.circle-series`)
+        .data(data,  function(d){return d.gdp_per_capita})
+        .join(
+          enter => enter
+          .append("circle")
+            .transition()
+            .duration(1500)
+            .attr('class', d => `circle-series ${d.label.toLowerCase()}`)
+            .attr('cx', d => xScaleScatter(d.gdp_per_capita))
+            .attr('cy', d => yScaleScatter(d.total_cases_per_million))
+            .attr('r', 3)
+            .style('fill', d => d.color)
+            // makes the circles lighter so can distinguish one from the other when one is positioned on the other
+            .attr('fill-opacity', 0.7),
+            
+            
+          update => update
+            .transition()
+            .duration(1500)
+            .attr('cx', d => xScaleScatter(d.gdp_per_capita))
+            .attr('cy', d => yScaleScatter(d.total_cases_per_million))
+            .attr('r', 3)
+            .style('fill', d => d.color),
+      
+          exit => exit.remove()
+  
+        )
+        
+        
+  }
+   
+
+
+export { updateLineChart, updateScatterPlot}

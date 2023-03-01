@@ -70,3 +70,7 @@ button:hover {
 .series-labels:hover, .line-series:hover {
     cursor: pointer;
 }
+
+#scatter-plot {
+    margin-top: 21px;
+}
