@@ -160,13 +160,13 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
 
   function updateScatterPlot (data, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter){
     console.log("data in the scatter", data)
-    xScaleScatter.domain(d3.extent(data.minMaxGDP));
+    xScaleScatter.domain([data.xMax, data.xMin]);
     svgScatter.selectAll(".xAxis")
        .transition()
        .duration(1000)
        .call(xAxisScatter); 
        
-    yScaleScatter.domain(d3.extent(data.minMaxCases));
+    yScaleScatter.domain([data.yMin, data.yMax]);
     svgScatter.selectAll(".yAxis")
        .transition()
        .duration(1000)

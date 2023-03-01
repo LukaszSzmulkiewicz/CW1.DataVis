@@ -18,14 +18,14 @@ import { updateLineChart, updateScatterPlot } from "./draw.js";
     const southAmericaWinter2020 = dataWinter2020.filter(data => data.continent === "South America")
     const oceaniaWinter2020 = dataWinter2020.filter(data => data.continent === "Oceania")
 
-    // const dataSpring2020 = filterDates(data, "20/03/2020", "20/06/2020");
+    const dataSpring2020 = filterDates(data, "20/03/2020", "20/06/2020");
 
-    // const asiaSpr2020 = dataSpring2020.filter(data => data.continent === "Asia")
-    // const europeSpr2020 = dataSpring2020.filter(data => data.continent === "Europe")
-    // const africaSpr2020 = dataSpring2020.filter(data => data.continent === "Africa")
-    // const northAmericaSpr2020 = dataSpring2020.filter(data => data.continent === "North America")
-    // const southAmericaSpr2020 = dataSpring2020.filter(data => data.continent === "South America")
-    // const oceaniaSpr2020 = dataSpring2020.filter(data => data.continent === "Oceania")
+    const asiaSpr2020 = dataSpring2020.filter(data => data.continent === "Asia")
+    const europeSpr2020 = dataSpring2020.filter(data => data.continent === "Europe")
+    const africaSpr2020 = dataSpring2020.filter(data => data.continent === "Africa")
+    const northAmericaSpr2020 = dataSpring2020.filter(data => data.continent === "North America")
+    const southAmericaSpr2020 = dataSpring2020.filter(data => data.continent === "South America")
+    const oceaniaSpr2020 = dataSpring2020.filter(data => data.continent === "Oceania")
     
     // const dataSummer2020 = filterDates(data, "22/06/2020", "22/09/2020");
 
@@ -120,9 +120,9 @@ import { updateLineChart, updateScatterPlot } from "./draw.js";
 
 
     const winter2020 = [asiaWinter2020, europeWinter2020, africaWinter2020, northAmericaWinter2020, southAmericaWinter2020, oceaniaWinter2020];
-    // const spring2020 = [asiaSpr2020, europeSpr2020, africaSpr2020, 
-    //   northAmericaSpr2020, southAmericaSpr2020, oceaniaSpr2020];
-    //   const summer2020 = [asiaSummer2020, europeSummer2020, africaSummer2020, northAmericaSummer2020, southAmericaSummer2020, oceaniaSummer2020];
+    const spring2020 = [asiaSpr2020, europeSpr2020, africaSpr2020, 
+      northAmericaSpr2020, southAmericaSpr2020, oceaniaSpr2020];
+      // const summer2020 = [asiaSummer2020, europeSummer2020, africaSummer2020, northAmericaSummer2020, southAmericaSummer2020, oceaniaSummer2020];
     // const autumn2020 = [asiaAutumn2020, europeAutumn2020, africaAutumn2020, 
     //   northAmericaAutumn2020, southAmericaAutumn2020, oceaniaAutumn2020];
     
@@ -143,7 +143,7 @@ import { updateLineChart, updateScatterPlot } from "./draw.js";
 
   
     const chartDataWinter2020 = prepareLineChartData(winter2020, continents, colors);
-    // const chartDataWSpring2020 = prepareLineChartData(spring2020, continents, colors);
+    const chartDataWSpring2020 = prepareLineChartData(spring2020, continents, colors);
     // const chartDataWSummer2020 = prepareLineChartData(summer2020, continents, colors);
     // const chartDataWAutumn2020 = prepareLineChartData(autumn2020, continents, colors);
 
@@ -166,6 +166,9 @@ import { updateLineChart, updateScatterPlot } from "./draw.js";
     // scatter plot data
     const scatterDataWinter2020 = prepareScatterPlotData(chartDataWinter2020);
     const scatterDataWinter2021 = prepareScatterPlotData(chartDataWinter2021);
+
+    const scatterDataWSpring2020 = prepareScatterPlotData(chartDataWSpring2020);
+
 
 
     
@@ -406,12 +409,8 @@ import { updateLineChart, updateScatterPlot } from "./draw.js";
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`);
-            // Scales.
 
-            const xExtentsScatter = d3
-            .extent(scatterDataWinter2020.minMaxGDP)
-            const yExtentScatter = d3
-            .extent(scatterDataWinter2020.minMaxCases)
+            // Scales.
         const xScaleScatter = d3.scaleLinear()
         .range([0, width])
 
@@ -448,9 +447,52 @@ import { updateLineChart, updateScatterPlot } from "./draw.js";
              .call(yAxisScatter)
              // .call(addLabel, 'Revenue', 5)
 
-      //////////////////////////////////////////////////
-      /// Scatter plt 1
+       //////////////////////////////////////////////////
+      /// Scatter plt 2
       // ///////////////////////////
+      const svgScatter1 = d3
+      .select(`.scatter-plot-container1`)
+      .append('svg')
+      .attr('width', width + margin.right + margin.left)
+      .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+      .attr('transform', `translate(${margin.left}, ${margin.top})`);
+            // Scales.
+        const xScaleScatter1 = d3.scaleLinear()
+        .range([0, width])
+
+        const yScaleScatter1 = d3.scaleLinear()
+            .range([height, 0]);
+
+            const xAxisScatter1 = d3
+            .axisBottom(xScaleScatter1)
+            // to specify number of ticks
+            .ticks(10)
+            .tickFormat(formatTicks)
+            .tickSizeInner(-height)
+            .tickSizeOuter(0)
+        
+
+             // Draw y axis.
+             const yAxisScatter1 = d3
+             .axisLeft(yScaleScatter1)
+             // to specify number of ticks
+             .ticks(10)
+             .tickFormat(formatTicks)
+             .tickSizeInner(-width)
+             .tickSizeOuter(0)
+         
+            const xAxisDrawScatter1 = svgScatter1
+            .append('g')
+            .attr('class', 'xAxis')
+            .attr('transform', `translate(0, ${height})`)
+            .call(xAxisScatter1)
+
+           const yAxisDrawScatter1 = svgScatter1
+             .append('g')
+             .attr('class', 'yAxis')
+             .call(yAxisScatter1)
+             // .call(addLabel, 'Revenue', 5)
 
 
      
@@ -461,11 +503,12 @@ import { updateLineChart, updateScatterPlot } from "./draw.js";
         
           if(name === "twenty"){
             updateLineChart(chartDataWinter2020, xScale, yScale, svg, xAxis, yAxis);
-          //   update(chartDataWSpring2020, xScale1, yScale1, svg1, xAxis1, yAxis1);
+            updateLineChart(chartDataWSpring2020, xScale1, yScale1, svg1, xAxis1, yAxis1);
           //   update(chartDataWSummer2020, xScale2, yScale2, svg2, xAxis2, yAxis2);
           //   update(chartDataWAutumn2020, xScale3, yScale3, svg3, xAxis3, yAxis3)
 
           updateScatterPlot(scatterDataWinter2020, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter);
+          updateScatterPlot(scatterDataWSpring2020, xScaleScatter1, yScaleScatter1, svgScatter1, xAxisScatter1, yAxisScatter1);
 
 
           }else if (name === "twentyone") {
@@ -490,11 +533,12 @@ import { updateLineChart, updateScatterPlot } from "./draw.js";
 
     d3.selectAll('button').on('click', click);
     updateLineChart(chartDataWinter2020, xScale, yScale, svg, xAxis, yAxis);
-    // update(chartDataWSpring2020, xScale1, yScale1, svg1, xAxis1, yAxis1);
+    updateLineChart(chartDataWSpring2020, xScale1, yScale1, svg1, xAxis1, yAxis1);
     // update(chartDataWSummer2020, xScale2, yScale2, svg2, xAxis2, yAxis2)
     // update(chartDataWAutumn2020, xScale3, yScale3, svg3, xAxis3, yAxis3)
     // function drawScatterPlot(data){
     updateScatterPlot(scatterDataWinter2020, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter);
+    updateScatterPlot(scatterDataWSpring2020, xScaleScatter1, yScaleScatter1, svgScatter1, xAxisScatter1, yAxisScatter1);
    
     
 

@@ -317,7 +317,11 @@ function prepareScatterPlotData(data){
   
 const minMaxCases  = asiaCasesTotal.concat(europeCasesTotal, africaCasesTotal, nAmericaCasesTotal, sAmericaCasesTotal, oceaniaCasesTotal);
 const minMaxGDP  = asiaGDPTotal.concat(europeGDPTotal, africaGDPTotal, nAmericaGDPTotal, sAmericaGDPTotal, oceaniaGDPTotal);
+const yMaxCases = d3.max(minMaxCases);
+const yMinCases = d3.min(minMaxCases);
 
+const xMinGDP = d3.max(minMaxGDP);
+const xMaxGDP = d3.min(minMaxGDP)
 
   console.log("asia top", asiaTop5[0])
   const lineData = {
@@ -354,14 +358,11 @@ const minMaxGDP  = asiaGDPTotal.concat(europeGDPTotal, africaGDPTotal, nAmericaG
       },
    
     ],
-
-    minMaxCases: minMaxCases,
-    minMaxGDP: minMaxGDP
-      // dates object (array of possible dates)
-      // dates: dates,
-      // yMin: yMin,
-      // yMax: yMax,
-      // data: data,
+    xMin: xMinGDP,
+    xMax: xMaxGDP,
+    yMin: yMinCases,
+    yMax: yMaxCases,
+    
   }
   return lineData;
   
