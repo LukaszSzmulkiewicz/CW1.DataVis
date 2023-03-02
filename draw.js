@@ -7,6 +7,32 @@ function transition(selection) {
         .ease(d3.easeLinear)
         .attr('stroke-dashoffset', 0);
   }
+  function addYAxisLabel(svg, x, y, text) {
+    const label = svg.append("text")
+      .attr("class", "axisLabel")
+      .attr("text-anchor", "start")
+      .text(text.substring(0, 6))
+      .attr("x", x)
+      .attr("y", y)
+      .append("tspan")
+      .attr("x", x)
+      .attr("dy", "1.2em")
+      .text(text.substring(6));
+    return label;
+  }
+  function addAxisLabel(svg, x, y, text) {
+    const label = svg.append("text")
+      .attr("class", "axisLabel")
+      .attr("text-anchor", "end")
+      .attr("x", x)
+      .attr("y", y)
+      .text(text.substring(0, 4))
+      .append("tspan")
+          .attr("x", x+5)
+          .attr("dy", "1.2em")
+          .text(text.substring(5));
+    return label;
+  }
 function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
     // drawScatterPlot(lineChartData)
     // Define area generator
@@ -40,6 +66,9 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
          // Rotate xAxis ticks
  d3.selectAll(".xAxis .tick text")
  .attr("transform", "rotate(-22)")
+
+ const yAxisLabel = addYAxisLabel(svg, -40,  -30, "Total Cases");
+
 
  // Create a update selection: bind to the new data
    const u = svg.selectAll('.line-series')
@@ -159,6 +188,10 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
   }
 
   function updateScatterPlot (data, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter){
+    const margin = { top: 80, right: 60, bottom: 40, left: 60 };
+    const width = 450 - margin.right - margin.left;
+    const height = 380 - margin.top - margin.bottom;
+    
     console.log("data in the scatter", data)
     xScaleScatter.domain([data.xMax, data.xMin]);
     svgScatter.selectAll(".xAxis")
@@ -172,7 +205,14 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
        .duration(1000)
        .call(yAxisScatter);
          
-     
+    // Rotate xAxis ticks
+    d3.selectAll(".xAxis .tick text")
+    .attr("transform", "rotate(-22)") 
+    
+     // adding scatter plot labels
+     const xAxisLabel = addAxisLabel(svgScatter, width + 40, height + 10, "GDP/ capita");     
+     const yAxisLabel = addYAxisLabel(svgScatter, -40,  -30, "Cases/mil");
+
     // // Draw header.
     // const header = svg
     //   .append('g')
@@ -216,7 +256,7 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
 
   function addScatterCirc(svg, xScaleScatter, yScaleScatter, data){
     svg.selectAll(`.circle-series`)
-        .data(data,  function(d){return d.gdp_per_capita})
+        .data(data,  function(d){return d.total_cases_per_million})
         .join(
           enter => enter
           .append("circle")

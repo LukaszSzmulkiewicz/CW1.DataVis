@@ -31,6 +31,12 @@ text {
     stroke-dasharray: 4, 2;
 }
 
+.axisLabel {
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+}
+
 .chart-row {
     display: flex;
     flex-direction: row;
