@@ -2,9 +2,9 @@ import {
   formatTicks,
   prepareLineChartDataVacsCases,
   prepareLineChartDataVacs,
-  filterDatesNew,
 } from "./helper.js";
 import { drawLineChartVacs } from "./draw.js";
+import { addPieCharts } from "./vacs_other.js";
 
 function addAxisLabel(svg, x, y, text) {
   const label = svg
@@ -36,7 +36,6 @@ function addYAxisLabel(svg, x, y, text) {
 }
 // Main function.
 function ready(data) {
-  const countries = ["Gibraltar", "Peru", "Cyprus", "Germany"];
   const colors = ["dodgerblue", "darkorange", "green", "red", "purple", "blue"];
 
   const groupByLocation = d3.group(data, (d) => d.location);
@@ -386,7 +385,7 @@ function ready(data) {
   // Draw y axis.
   const yAxis8 = d3
     .axisLeft(yScale8)
-    .ticks(21)
+    .ticks(25)
     .tickFormat(formatTicks)
     .tickSizeOuter(0)
     .tickSizeInner(-width);
@@ -401,8 +400,9 @@ function ready(data) {
   drawLineChartVacs(lineChartDataOther2, xScale6, yScale6, svg6, xAxis6, yAxis6);
   drawLineChartVacs(lineChartData3, xScale7, yScale7, svg7, xAxis7, yAxis7);
   drawLineChartVacs(lineChartDataOther3, xScale8, yScale8, svg8, xAxis8, yAxis8);
-
-
+  
+  // adding pie charts
+  addPieCharts(data);
 
 }
 function type(d) {
@@ -424,6 +424,7 @@ function type(d) {
     total_hosp_admissions_per_hundred: +d.total_hosp_admissions_per_hundred,
     hospital_beds_per_thousand: +d.hospital_beds_per_thousand,
     human_development_index: +d.human_development_index,
+    people_fully_vaccinated: +d.people_fully_vaccinated
   };
 }
 
