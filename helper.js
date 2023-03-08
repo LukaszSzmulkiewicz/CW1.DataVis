@@ -401,9 +401,10 @@ function prepareLineChartDataVacsCases(data, country, colors){
     const lineData = {
       series: [
         {
-          name: `total_cases_per_hundred`,
-          lblClass:`total cases/ 100`,
-          area:`area_total_cases_per_hundred`,
+          name: `cases`,
+          lblClass:`cases`,
+          lbl: "cases",
+          area:`cases`,
           color: `${colors[0]}`,
           values: total_cases.map(d =>({ date: d[0], value: d[1] })),
           lblPosition: [10,5],
@@ -514,9 +515,10 @@ function prepareLineChartDataVacs(data, country, colors){
   const series = [];
   if (hasTotalDeaths) {
     series.push({
-      name: `total_deaths_per_hundred`,
+      name: `deaths`,
       lblClass:`deaths`,
-      area:`total_deaths_per_hundred`,
+      lbl: "deaths",
+      area:`deaths`,
       color: `${colors[3]}`,
       values: total_deaths.map(d =>({ date: d[0], value: d[1] })),
       lblPosition: [4,5],
@@ -524,9 +526,10 @@ function prepareLineChartDataVacs(data, country, colors){
   }
   if (hasTotalVaccinations) {
     series.push({
-      name: `total_vacs_per_hundred`,
+      name: `vaccinations`,
       lblClass:`vaccinations`,
-      area:`total_vacs_per_hundred`,
+      lbl: "vaccinations",
+      area:`vaccinations`,
       color: `${colors[2]}`,
       values: total_vaccinations.map(d =>({ date: d[0], value: d[1] })),
       lblPosition: [4,20],
@@ -534,9 +537,10 @@ function prepareLineChartDataVacs(data, country, colors){
   }
   if (hasTotalBoosters) {
     series.push({
-      name: `total_boosters_per_hundred`,
+      name: `boosters`,
       lblClass:`boosters`,
-      area:`total_boosters_per_hundred`,
+      lbl: "boosters",
+      area:`boosters`,
       color: `${colors[5]}`,
       values: total_boosters.map(d =>({ date: d[0], value: d[1] })),
       lblPosition: [4,35],
@@ -544,9 +548,10 @@ function prepareLineChartDataVacs(data, country, colors){
   }
   if (hasTotalHospital) {
     series.push({
-      name: `total_hosp_admissions_per_hundred`,
-      lblClass:`hosp adm`,
-      area:`total_hosp_admissions_per_hundred`,
+      name: `hosp`,
+      lblClass:`hosp`,
+      lbl: "hospital admissions",
+      area:`hosp`,
       color: `${colors[1]}`,
       values: total_hospital.map(d =>({ date: d[0], value: d[1] })),
       lblPosition: [4,50],

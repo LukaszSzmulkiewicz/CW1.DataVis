@@ -180,8 +180,6 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
           .transition()
           .attr('r', 3)
           .attr('fill-opacity', 0.7)
-
-        
     });
     
 
@@ -279,15 +277,19 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
           exit => exit.remove()
   
         )
+
+        
+
+        
         
         
   }
   function drawLineChartVacs(lineChartData, xScale, yScale, svg, xAxis, yAxis){
     // Define area generator
-    // const areaGen = d3.area()
-    // .x(d => xScale(d.date))
-    // .y0(yScale(lineChartData.yMin))
-    // .y1(d => yScale(d.value));
+    const areaGen = d3.area()
+    .x(d =>  xScale(d.date))
+    .y0(yScale(lineChartData.yMin))
+    .y1(d => yScale(d.value));
 
           // line generator 
     const lineGen = d3
@@ -333,9 +335,10 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
         .attr("fill", "none")
         .attr('d', d => lineGen(d.values))
         .attr("stroke-width", 2)
-        .style('stroke', d => d.color),
-  
+        .style('stroke', d => d.color)
+         
     )
+    
 
     svg
     .selectAll('.series-labels')
@@ -347,14 +350,22 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
         .attr('class', d => `series-labels ${d.name.toLowerCase()}`)
         .attr('x', d => d.lblPosition[0])
         .attr('y', d => d.lblPosition[1])
-        .text(d => d.lblClass)
+        .text(d => d.lbl)
         .style('dominant-baseline', 'central')
         .style('font-size', '1em')
         .style('font-weight', 'bold')
         .style('fill', d => d.color),
       
     )
-  
+
+    // Draw area
+    svg.selectAll('.area-series')
+    .data(lineChartData.series)
+    .enter()
+    .append('path')
+    .attr('class', d => `area-series ${d.name.toLowerCase()}`)
+    .attr('d', d => areaGen(d.values))
+    .style('fill', "none");
 
   }
 
