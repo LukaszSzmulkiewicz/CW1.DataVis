@@ -30,7 +30,7 @@ function filterDates(data, startDate, endDate) {
     const totalCasesMapAsia = d3.rollup(data[0], reduceTotalCases, groupBy);
     const totalCasesAsia = Array.from(totalCasesMapAsia).sort((a, b) => a[0] - b[0]);
     const datesAsia = totalCasesAsia.map(d =>d[0]);
-    
+    console.log("total cases asia", totalCasesAsia)
     const groupByEurope = d => d.date;
     const reduceTotalCasesEurope = values => d3.sum(values, leaf => leaf.total_cases);
     const totalCasesMapEurope = d3.rollup(data[1], reduceTotalCasesEurope, groupByEurope);
@@ -165,7 +165,7 @@ function filterDates(data, startDate, endDate) {
     } else if (d >= 1000000) {
         return (d / 1000000).toFixed(1) + "mil";
     } else if (d>= 1000){
-        return (d/1000).toFixed(0)+ "k";
+        return (d/1000).toFixed(1)+ "k";
     } else {
       return d
     }
@@ -368,5 +368,208 @@ const xMaxGDP = d3.min(minMaxGDP)
   
 }
 
+function prepareLineChartDataVacsCases(data, country, colors){
+             
+  const grouped_country_data = d3.group(data.get(country), d => d.date);
+  const total_cases = [];
+  for (const [key, value] of grouped_country_data) {
+    total_cases.push([key,value[0].total_cases_per_hundred]);
+  }
+  const dates_cases = total_cases.map(d => d[0]);
+  const values_cases = total_cases.map(d => d[1]).sort((a,b) => a - b)
+  
+  const dates  = dates_cases
+  
+  const yValuesMax = [
+    values_cases[values_cases.length-1],
+  ];
+  const yValuesMin = [
+    values_cases[0],
+  ];
+  const yMax = d3.max(yValuesMax);
+  const yMin = d3.min(yValuesMin)
+  // // const yMax2 = yValuesMax.sort((a, b) => a - b) - testing max
+  // // const yMin2 = yValuesMin.sort((a, b) => a - b) - testing min
 
-  export { filterDates, prepareLineChartData, prepareScatterPlotData ,filterDatesNew, formatTicks}
+  // console.log("yMax", yMax)
+  // console.log("yMin", yMin)
+
+
+
+ 
+    // Produce final data.
+    const lineData = {
+      series: [
+        {
+          name: `total_cases_per_hundred`,
+          lblClass:`total cases/ 100`,
+          area:`area_total_cases_per_hundred`,
+          color: `${colors[0]}`,
+          values: total_cases.map(d =>({ date: d[0], value: d[1] })),
+          lblPosition: [10,20],
+        },
+      ],
+        // dates object (array of possible dates)
+        dates: dates,
+        yMin: yMin,
+        yMax: yMax,
+        data: data,
+    }
+    
+    return lineData;
+
+} 
+function prepareLineChartDataVacs(data, country, colors){
+  const grouped_country_data = d3.group(data.get(country), d => d.date);
+
+  const total_deaths = [];
+  for (const [key, value] of grouped_country_data) {
+    total_deaths.push([key,value[0].total_deaths_per_hundred]);
+  }
+  const dates_deaths = total_deaths.map(d => d[0]);
+  const values_deaths = total_deaths.map(d => d[1]).sort((a,b) => a - b)
+  
+  const total_vaccinations = [];
+  let temp_vaccinations = 0;
+  for (const [key, value] of grouped_country_data) {
+    let vacs_value = value[0].total_vaccinations_per_hundred
+    if(vacs_value !== 0){
+      temp_vaccinations = vacs_value
+      total_vaccinations.push([key,temp_vaccinations]);
+    }else{
+      total_vaccinations.push([key,temp_vaccinations]);
+    }
+  }
+  const dates_vaccinations = total_vaccinations.map(d => d[0]);
+  const values_vaccinations = total_vaccinations.map(d => d[1]).sort((a,b) => a - b)
+     
+  const total_hospital = [];
+  let temp_hospital = 0;
+  for (const [key, value] of grouped_country_data) {
+    let hosp_value = value[0].total_hosp_admissions_per_hundred
+    if(hosp_value !== 0){
+      temp_hospital = hosp_value
+      total_hospital.push([key,temp_hospital]);
+    }else{
+      total_hospital.push([key,temp_hospital]);
+    }
+  }
+  const dates_hospital = total_hospital.map(d => d[0]);
+  const values_hospital = total_hospital.map(d => d[1]).sort((a,b) => a - b)
+
+  const total_boosters = [];
+  let temp_boosters = 0;
+  for (const [key, value] of grouped_country_data) {
+    let booster_value = value[0].total_boosters_per_hundred
+    if(booster_value !== 0){
+      temp_boosters = booster_value
+      total_boosters.push([key,temp_boosters]);
+    }else{
+      total_boosters.push([key,temp_boosters]);
+    }
+  }
+  const dates_boosters = total_boosters.map(d => d[0]);
+  const values_boosters = total_boosters.map(d => d[1]).sort((a,b) => a - b)
+
+
+  const dates  = dates_deaths.concat(dates_vaccinations, dates_hospital, dates_boosters);
+  
+  const yValuesMax = [
+    values_deaths[values_deaths.length-1],
+    values_vaccinations[values_vaccinations.length-1],
+    values_hospital[values_hospital.length-1],
+    values_boosters[values_boosters.length-1],
+
+  ];
+  const yValuesMin = [
+    values_deaths[0],
+    values_vaccinations[0],
+    values_hospital[0],
+    values_boosters[0],
+
+  ];
+  const yMax = d3.max(yValuesMax);
+  const yMin = d3.min(yValuesMin)
+  // // const yMax2 = yValuesMax.sort((a, b) => a - b) - testing max
+  // // const yMin2 = yValuesMin.sort((a, b) => a - b) - testing min
+
+  // console.log("yMax", yMax)
+  // console.log("yMin", yMin)
+
+
+
+  
+    // Produce final data.
+    const lineData = {
+      series: [
+        {
+          name: `total_deaths_per_hundred`,
+          lblClass:`total deaths/ 100`,
+          area:`total_deaths_per_hundred`,
+          color: `${colors[3]}`,
+          values: total_deaths.map(d =>({ date: d[0], value: d[1] })),
+          lblPosition: [4,-20],
+        },
+        {
+          name: `total_vacs_per_hundred`,
+          lblClass:`total vaccinations/ 100`,
+          area:`total_vacs_per_hundred`,
+          color: `${colors[2]}`,
+          values: total_vaccinations.map(d =>({ date: d[0], value: d[1] })),
+          lblPosition: [4,0],
+        },
+        {
+          name: `total_hosp_admissions_per_hundred`,
+          lblClass:`total hospital admissions/ 100`,
+          area:`total_hosp_admissions_per_hundred`,
+          color: `${colors[1]}`,
+          values: total_hospital.map(d =>({ date: d[0], value: d[1] })),
+          lblPosition: [4,20],
+        },
+        {
+          name: `total_boosters_per_hundred`,
+          lblClass:`total boosters/ 100`,
+          area:`total_boosters_per_hundred`,
+          color: `${colors[5]}`,
+          values: total_boosters.map(d =>({ date: d[0], value: d[1] })),
+          lblPosition: [4,40],
+        },
+        
+        // {
+        //   name: `${countries[3]}`,
+        //   lblClass:`namerica`,
+        //   color: `${colors[3]}`,
+        //   values: totalCasesNorthAmerica.map(d =>({ date: d[0], value: d[1] })),
+        //   lblPosition: [4,24],
+
+        // },
+        // {
+        //   name: `${countries[4]}`,
+        //   lblClass:`samerica`,
+        //   color: `${colors[4]}`,
+        //   values: totalCasesSAmerica.map(d =>({ date: d[0], value: d[1] })),
+        //   lblPosition: [4,40],
+
+        // },
+        // {
+        //   name: `${countries[5]}`,
+        //   lblClass:`oceania`,
+        //   color: `${colors[5]}`,
+        //   values: totalCasesOceania.map(d =>({ date: d[0], value: d[1] })),
+        //   lblPosition: [4,54],
+        // }
+      ],
+        // dates object (array of possible dates)
+        dates: dates,
+        yMin: yMin,
+        yMax: yMax,
+        data: data,
+    }
+    
+    return lineData;
+  
+  } 
+
+
+  export { filterDates, prepareLineChartData, prepareScatterPlotData 
+    ,filterDatesNew, formatTicks, prepareLineChartDataVacsCases, prepareLineChartDataVacs}

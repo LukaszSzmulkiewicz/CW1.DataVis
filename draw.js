@@ -285,7 +285,81 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
         
         
   }
-   
+  function drawLineChartVacs(lineChartData, xScale, yScale, svg, xAxis, yAxis){
+    // Define area generator
+    // const areaGen = d3.area()
+    // .x(d => xScale(d.date))
+    // .y0(yScale(lineChartData.yMin))
+    // .y1(d => yScale(d.value));
+
+          // line generator 
+    const lineGen = d3
+    // calling d3 line to construct line generator 
+      .line()
+      .x(d => xScale(d.date))
+      .y(d => yScale(d.value));  
+
+    // Create the X axis:
+    xScale.domain(d3.extent(lineChartData.dates));
+  svg.selectAll(".xAxis")
+      .transition()
+      .duration(1000)
+      .call(xAxis);  
 
 
-export { updateLineChart, updateScatterPlot}
+    // create the Y axis
+    yScale.domain([lineChartData.yMin, lineChartData.yMax])
+
+  svg.selectAll(".yAxis")
+    .transition()
+    .duration(1000)
+    .call(yAxis); 
+          // Rotate xAxis ticks
+  d3.selectAll(".xAxis .tick text")
+  .attr("transform", "rotate(-22)")
+
+  //  const yAxisLabel = addYAxisLabel(svg, -40,  -30, "Total Cases");
+
+
+  // Create a update selection: bind to the new data
+    const u = svg.selectAll('.line-series')
+    .data(lineChartData.series, function(d){return d.series})
+
+    // Updata the line
+    u
+    .join(
+      enter => enter
+        .append("path")
+        .transition()
+        .duration(1500)
+        .attr('class', d => `line-series ${d.lblClass.toLowerCase()}`)
+        .attr("fill", "none")
+        .attr('d', d => lineGen(d.values))
+        .attr("stroke-width", 2)
+        .style('stroke', d => d.color),
+  
+    )
+
+    svg
+    .selectAll('.series-labels')
+    .data(lineChartData.series, function(d){return d.series})
+    .join(
+      enter => enter
+        .append('text')
+        .transition()
+        .attr('class', d => `series-labels ${d.name.toLowerCase()}`)
+        .attr('x', d => d.lblPosition[0])
+        .attr('y', d => d.lblPosition[1])
+        .text(d => d.lblClass)
+        .style('dominant-baseline', 'central')
+        .style('font-size', '1.2em')
+        .style('font-weight', 'bold')
+        .style('fill', d => d.color),
+      
+    )
+  
+
+  }
+
+
+export { updateLineChart, updateScatterPlot, drawLineChartVacs}
