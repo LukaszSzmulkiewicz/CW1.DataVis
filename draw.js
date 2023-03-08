@@ -205,10 +205,7 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
        .duration(1000)
        .call(yAxisScatter);
          
-    // Rotate xAxis ticks
-    d3.selectAll(".xAxis .tick text")
-    .attr("transform", "rotate(-22)") 
-    
+   
      // adding scatter plot labels
      const xAxisLabel = addAxisLabel(svgScatter, width + 40, height + 10, "GDP/ capita");     
      const yAxisLabel = addYAxisLabel(svgScatter, -40,  -30, "Cases/mil");
@@ -352,7 +349,7 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
         .attr('y', d => d.lblPosition[1])
         .text(d => d.lblClass)
         .style('dominant-baseline', 'central')
-        .style('font-size', '1.2em')
+        .style('font-size', '1em')
         .style('font-weight', 'bold')
         .style('fill', d => d.color),
       

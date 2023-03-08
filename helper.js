@@ -406,7 +406,7 @@ function prepareLineChartDataVacsCases(data, country, colors){
           area:`area_total_cases_per_hundred`,
           color: `${colors[0]}`,
           values: total_cases.map(d =>({ date: d[0], value: d[1] })),
-          lblPosition: [10,20],
+          lblPosition: [10,5],
         },
       ],
         // dates object (array of possible dates)
@@ -496,75 +496,70 @@ function prepareLineChartDataVacs(data, country, colors){
   // console.log("yMax", yMax)
   // console.log("yMin", yMin)
 
-
-
   
-    // Produce final data.
-    const lineData = {
-      series: [
-        {
-          name: `total_deaths_per_hundred`,
-          lblClass:`total deaths/ 100`,
-          area:`total_deaths_per_hundred`,
-          color: `${colors[3]}`,
-          values: total_deaths.map(d =>({ date: d[0], value: d[1] })),
-          lblPosition: [4,-20],
-        },
-        {
-          name: `total_vacs_per_hundred`,
-          lblClass:`total vaccinations/ 100`,
-          area:`total_vacs_per_hundred`,
-          color: `${colors[2]}`,
-          values: total_vaccinations.map(d =>({ date: d[0], value: d[1] })),
-          lblPosition: [4,0],
-        },
-        {
-          name: `total_hosp_admissions_per_hundred`,
-          lblClass:`total hospital admissions/ 100`,
-          area:`total_hosp_admissions_per_hundred`,
-          color: `${colors[1]}`,
-          values: total_hospital.map(d =>({ date: d[0], value: d[1] })),
-          lblPosition: [4,20],
-        },
-        {
-          name: `total_boosters_per_hundred`,
-          lblClass:`total boosters/ 100`,
-          area:`total_boosters_per_hundred`,
-          color: `${colors[5]}`,
-          values: total_boosters.map(d =>({ date: d[0], value: d[1] })),
-          lblPosition: [4,40],
-        },
-        
-        // {
-        //   name: `${countries[3]}`,
-        //   lblClass:`namerica`,
-        //   color: `${colors[3]}`,
-        //   values: totalCasesNorthAmerica.map(d =>({ date: d[0], value: d[1] })),
-        //   lblPosition: [4,24],
+  // Produce final data.
+  // Check if the last value in total_deaths is greater than 0
+  const hasTotalDeaths = total_deaths.length > 0 && total_deaths[total_deaths.length - 1][1] > 0;
 
-        // },
-        // {
-        //   name: `${countries[4]}`,
-        //   lblClass:`samerica`,
-        //   color: `${colors[4]}`,
-        //   values: totalCasesSAmerica.map(d =>({ date: d[0], value: d[1] })),
-        //   lblPosition: [4,40],
+  // Check if the last value in total_vaccinations is greater than 0
+  const hasTotalVaccinations = total_vaccinations.length > 0 && total_vaccinations[total_vaccinations.length - 1][1] > 0;
 
-        // },
-        // {
-        //   name: `${countries[5]}`,
-        //   lblClass:`oceania`,
-        //   color: `${colors[5]}`,
-        //   values: totalCasesOceania.map(d =>({ date: d[0], value: d[1] })),
-        //   lblPosition: [4,54],
-        // }
-      ],
-        // dates object (array of possible dates)
-        dates: dates,
-        yMin: yMin,
-        yMax: yMax,
-        data: data,
-    }
+  // Check if the last value in total_hospital is greater than 0
+  const hasTotalHospital = total_hospital.length > 0 && total_hospital[total_hospital.length - 1][1] > 0;
+
+  // Check if the last value in total_boosters is greater than 0
+  const hasTotalBoosters = total_boosters.length > 0 && total_boosters[total_boosters.length - 1][1] > 0;
+
+  // Create the series array with only the objects that meet the condition
+  const series = [];
+  if (hasTotalDeaths) {
+    series.push({
+      name: `total_deaths_per_hundred`,
+      lblClass:`deaths`,
+      area:`total_deaths_per_hundred`,
+      color: `${colors[3]}`,
+      values: total_deaths.map(d =>({ date: d[0], value: d[1] })),
+      lblPosition: [4,5],
+    });
+  }
+  if (hasTotalVaccinations) {
+    series.push({
+      name: `total_vacs_per_hundred`,
+      lblClass:`vaccinations`,
+      area:`total_vacs_per_hundred`,
+      color: `${colors[2]}`,
+      values: total_vaccinations.map(d =>({ date: d[0], value: d[1] })),
+      lblPosition: [4,20],
+    });
+  }
+  if (hasTotalBoosters) {
+    series.push({
+      name: `total_boosters_per_hundred`,
+      lblClass:`boosters`,
+      area:`total_boosters_per_hundred`,
+      color: `${colors[5]}`,
+      values: total_boosters.map(d =>({ date: d[0], value: d[1] })),
+      lblPosition: [4,35],
+    });
+  }
+  if (hasTotalHospital) {
+    series.push({
+      name: `total_hosp_admissions_per_hundred`,
+      lblClass:`hosp adm`,
+      area:`total_hosp_admissions_per_hundred`,
+      color: `${colors[1]}`,
+      values: total_hospital.map(d =>({ date: d[0], value: d[1] })),
+      lblPosition: [4,50],
+    });
+  }
+
+  // Create the lineData object
+  const lineData = {
+    series: series,
+    dates: dates,
+    yMin: yMin,
+    yMax: yMax,
+  };
     
     return lineData;
   
