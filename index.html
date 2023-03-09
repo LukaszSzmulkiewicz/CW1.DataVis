@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 	<script src="https://d3js.org/d3.v7.js"></script>
+	<script src="https://unpkg.com/topojson@3"></script>
 	<style>
 		
 	  </style>
@@ -12,11 +13,16 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <script type="module" src="data_prep.js"></script>
+	<script type="module" src="data_prep.js"></script>
     <script type="module" src="draw.js"></script>
     <script type="module" src="app.js"></script>
     <script type="module" src="vacs.js"></script>
+    <script type="module" src="map.js"></script>
+	<div class="chart-row">
+	<div class="map-container"></div>
+	<div class="map-chart-container"></div>
 
+	</div>
 	<h1>Covid data in seasons across the globe (2020 - 2022) UTC vs GDP per capita</h1>
 		<div class="chart-row">
 			<div class="chart-column">
@@ -65,7 +71,6 @@
 			<div id="scatter-plot" class="scatter-plot-container3"></div>
 		</div>
 	</div>
-</div>
 	<h1>Covid outbreak management and Vaccinations</h1>
 	<div id="vacs">
 		<div class="chart-row">
@@ -74,8 +79,7 @@
 				<div class="line-chart-container-vacs"></div>
 				<div class="line-chart-container-vacs-other"></div>
 				<div id="pie-chart" class="pie-chart-container"></div>
-				
-		</div>
+			</div>
 		<div class="chart-column">
 			<h2>Peru</h2>
 			<div class="line-chart-container-vacs1"></div>
@@ -99,8 +103,10 @@
 	</div>
 	<div id="tooltip" style="width: 200px;">
 	</div>
-</div>
-  <!-- This is your tooltip's base structure -->
-    
+	
+	
+	
+
+
 </body>
 </html>

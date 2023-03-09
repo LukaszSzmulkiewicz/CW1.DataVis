@@ -79,12 +79,6 @@ function addPieCharts(data) {
   drawPieChartsVacs(dataCyprus, gPie2, radius);
   drawPieChartsVacs(dataGermany, gPie3, radius);
 
-
-  
-  
-
-
-
 }
 
 function drawPieChartsVacs(data, g, radius) {
@@ -96,7 +90,7 @@ function drawPieChartsVacs(data, g, radius) {
     .select("#tooltip")
     .append("div")
     .style("opacity", 0)
-    .attr("class", "tooltip")
+    .attr("class", "tooltip-vacs")
     .style("position", "relative")
     .style("background-color", "white")
     .style("border", "solid")
@@ -150,9 +144,22 @@ function drawPieChartsVacs(data, g, radius) {
     .attr("stroke", "white")
     .style("stroke-width", "2px")
     .style("opacity", 0.7)
-    .on("mouseover", mouseoverPie)
-    .on("mousemove", mousemovePie)
-    .on("mouseleave", mouseleavePie);
+    .on("mouseover", function (event, d) {
+      tooltip.style("opacity", 1);
+      d3.select(this).style("stroke", "black").style("opacity", 1);
+    })
+    .on("mousemove", function (event, d) {
+      const pieData = d3.select(this);
+      console.log("data in mouse move", d)
+      tooltip
+        .html(`${d.data.label}: ${d.data.value}`)
+        .style("left", event.x  + "px")
+        .style("top", event.y - 990 + "px");
+    })
+    .on("mouseleave", function (event, d) {
+      tooltip.style("opacity", 0);
+      d3.select(this).style("stroke", "none").style("opacity", 0.8);
+    });
 
   // Add the number in the middle of the donut chart
   const text = g

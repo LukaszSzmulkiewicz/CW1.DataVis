@@ -1,52 +1,110 @@
+﻿<html>
+    <head>
+        <style>
+            .graticule {
+                fill: none;
+                stroke: #777;
+                stroke-width: .5px;
+                stroke-opacity: .5;
+            }
 
-<!DOCTYPE html>
-<meta charset="utf-8">
+            svg {
+                border: 1px solid gray
+            }
 
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v6.js"></script>
+            .title {
+                border: 1px solid gray;
+                fill: black;
+            }
+        </style>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+    </head>
+    <body>
+        <script>
+        var width = 900;
+        var height = 900;
 
-<!-- Create an element where the map will take place -->
-<canvas id="my_dataviz" width="440" height="320"></canvas>
-<script>
+        var svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .append('g')
+                    .attr('class', 'map');
 
-	// select the canvas element created in the html.
-	const canvas = document.getElementById('my_dataviz');
-	
-	// Actual width and height. No idea if clienWidth would be a better option..?
-	const width = canvas.offsetWidth
-	const height = canvas.offsetHeight
-	
-	// Set a projection for the map. Projection = transform a lat/long on a position on the 2d map.
-	const projection = d3.geoNaturalEarth1()
-		.scale(width / 1.3 / Math.PI)
-		.translate([width / 2, height / 2])
-	
-	// Get the 'context'
-	const ctx = canvas.getContext('2d');
-	
-	// geographic path generator for given projection and canvas context
-	const pathGenerator = d3.geoPath(projection, ctx);
-	
-	// Draw a background
-	// ctx.fillStyle = '#ddd';
-	// ctx.fillRect(0, 0, width, height);
-	
-	// Load external data and boot
-	d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then( function(data){
-	
-	  // initialize the path
-	  ctx.beginPath();
-	
-	  // Got the positions of the path
-	  pathGenerator(data);
-	
-	  // Fill the paths
-	  ctx.fillStyle = "#999";
-	  ctx.fill();
-	
-	  // Add stroke
-	  ctx.strokeStyle = "#69b3a2";
-	  ctx.stroke()
-	
-	})
-	</script>
+        var title = svg.append("text")
+	        .attr("class", "title")
+	        .text("South American Populations")
+	        .attr("stroke-width", "2px")
+	        .attr("font-size", "19pt")
+	        .attr("fill", "black")
+	        .attr("x", 500)
+	        .attr("y", 600)
+
+        var projection = d3.geoMercator()
+            .scale(500)
+            .translate([width, height / 4]);
+
+        var path = d3.geoPath().projection(projection);
+
+        addGraticules(svg, path);
+
+        loadData();
+
+        function loadData(){
+	        var promises = [];
+
+	        promises.push(d3.json("data/southamerica.json"));
+	        promises.push(d3.tsv("data/sapops.txt"));
+
+	        Promise.all(promises).then(dataLoaded);
+        }
+
+        function dataLoaded(results) {
+	        var countryData = results[0];
+	        var populationData = results[1];
+	        var populations = {};
+
+	        populationData.forEach(x => populations[x.id] = +x.population);
+
+	        var color = getColors(populationData);
+
+            svg.append("g")
+                .attr("class", "countries")
+                .selectAll("path")
+                .data(countryData.features)
+                .enter()
+                .append("path")
+                .attr("d", path)
+                .style("fill", x => color(populations[x.id]))
+		        .style("stroke", "black")
+		        .style("stroke-width",0.3);
+        }
+
+        function getColors(populationData){
+            var sortedPopulations = populationData
+                .map(x => parseInt(x.population))
+                .sort(function (a, b) {
+		        return parseInt(a) - parseInt(b);
+	        });
+
+	        var maxPopulation = d3.max(sortedPopulations);
+
+	        var oranges = ["white"]; // create lower bound for thresholds
+
+	        sortedPopulations.forEach(x => oranges.push(d3.interpolateOranges((x) / maxPopulation)));
+
+	        return d3.scaleThreshold()
+		        .domain(sortedPopulations)
+		        .range(oranges);
+        }
+
+        function addGraticules(svg, path){
+	        var graticule = d3.geoGraticule();
+	        svg.append("path")
+		        .datum(graticule)
+		        .attr("class", "graticule")
+		        .attr("d", path);
+        }
+        </script>
+    </body>
+</html>
