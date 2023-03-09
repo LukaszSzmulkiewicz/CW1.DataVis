@@ -5,6 +5,7 @@ h1, h2 {
 #tooltip {
     font-family: 'Avenir', sans-serif;
     font-weight: bold;
+    pointer-events: none
 }
 
 svg {

@@ -2,9 +2,9 @@ import {
   formatTicks,
   prepareLineChartDataVacsCases,
   prepareLineChartDataVacs,
-} from "./helper.js";
+} from "./data_prep.js";
 import { drawLineChartVacs } from "./draw.js";
-import { addPieCharts } from "./vacs_other.js";
+import { addPieCharts } from "./vacs_pie.js";
 
 function addAxisLabel(svg, x, y, text) {
   const label = svg
@@ -402,7 +402,7 @@ function ready(data) {
   drawLineChartVacs(lineChartDataOther3, xScale8, yScale8, svg8, xAxis8, yAxis8);
   
   // adding pie charts
-  addPieCharts(data);
+  addPieCharts(groupByLocation);
 
 }
 function type(d) {

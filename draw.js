@@ -369,5 +369,7 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
 
   }
 
+  
+
 
 export { updateLineChart, updateScatterPlot, drawLineChartVacs}

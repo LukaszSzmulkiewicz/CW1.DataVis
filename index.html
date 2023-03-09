@@ -12,14 +12,12 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <script type="module" src="helper.js"></script>
+    <script type="module" src="data_prep.js"></script>
     <script type="module" src="draw.js"></script>
     <script type="module" src="app.js"></script>
     <script type="module" src="vacs.js"></script>
 
 	<h1>Covid data in seasons across the globe (2020 - 2022) UTC vs GDP per capita</h1>
-	<div id="world">
-
 		<div class="chart-row">
 			<div class="chart-column">
 				<div id="scatter-plot" class="scatter-plot-container"></div>
@@ -43,7 +41,6 @@
 		<div class="chart-column">
 			<div id="scatter-plot" class="scatter-plot-container1"></div>
 		</div>
-	</div>
 	<div class="chart-row">
 		<div class="chart-column">
 			<div id="scatter-plot" class="scatter-plot-container2"></div>
@@ -75,30 +72,35 @@
 			<div class="chart-column">
 				<h2>Gibraltar</h2>
 				<div class="line-chart-container-vacs"></div>
-			<div class="line-chart-container-vacs-other"></div>
-			<div class="pie-chart-container"></div>
-
+				<div class="line-chart-container-vacs-other"></div>
+				<div id="pie-chart" class="pie-chart-container"></div>
+				
 		</div>
 		<div class="chart-column">
 			<h2>Peru</h2>
 			<div class="line-chart-container-vacs1"></div>
 			<div class="line-chart-container-vacs1-other"></div>
+			<div class="pie-chart-container1"></div>
+			
 		</div>
 		<div class="chart-column">
 			<h2>Cyprus</h2>
 			<div class="line-chart-container-vacs2"></div> 
 			<div class="line-chart-container-vacs2-other"></div>
+			<div class="pie-chart-container2"></div>
+		
 		</div>
 		<div class="chart-column">
 			<h2>Germany</h2>
 			<div class="line-chart-container-vacs3"></div>
 			<div class="line-chart-container-vacs3-other"></div>
+			<div class="pie-chart-container3"></div>
 		</div>
+	</div>
+	<div id="tooltip" style="width: 200px;">
 	</div>
 </div>
   <!-- This is your tooltip's base structure -->
-    <div id="tooltip" style="width: 200px;">
-   
-    </div>
+    
 </body>
 </html>
