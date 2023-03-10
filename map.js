@@ -1,4 +1,4 @@
-var width = 800;
+var width = 1000;
 var height = 800;
 
 var svg = d3
@@ -12,17 +12,19 @@ var svg = d3
 var title = svg
   .append("text")
   .attr("class", "title")
-  .text("South American Population Density")
+  .text("European Population Density")
   .attr("stroke-width", "2px")
   .attr("font-size", "19pt")
   .attr("fill", "black")
   .attr("x", 300)
-  .attr("y", 600);
+  .attr("y", 700);
 
 var projection = d3
   .geoMercator()
-  .scale(500)
-  .translate([width, height / 4]);
+  .center([ 13, 52 ]) //comment centrer la carte, longitude, latitude
+  .translate([ width/2, height/2 ]) // centrer l'image obtenue dans le svg
+  .scale([ width/1.5 ]); // zoom, plus la valeur est petit plus le zoom est gros 
+
 
 var path = d3.geoPath().projection(projection);
 
@@ -33,15 +35,16 @@ loadData();
 function loadData() {
   var promises = [];
 
-  promises.push(d3.json("data/southamerica.json"));
+  promises.push(d3.json("data/europe.json"));
   promises.push(d3.tsv("data/sapops.txt"));
-  promises.push(d3.csv("data/map_data.csv"));
+  promises.push(d3.csv("data/europe.csv"));
 
   Promise.all(promises).then(dataLoaded);
 }
 
 function dataLoaded(results) {
   var countryData = results[0];
+  console.log("country data", countryData)
   var populationData = results[1];
   var densityData = results[2];
   var populations = {};
@@ -49,7 +52,7 @@ function dataLoaded(results) {
 
   populationData.forEach((x) => (populations[x.id] = +x.population));
   densityData.forEach((x) => (densities[x.iso_code] = +x.population_density));
-
+  console.log("density data", densityData)
   var color = getColors(densityData);
 
   svg
@@ -59,8 +62,9 @@ function dataLoaded(results) {
     .data(countryData.features)
     .enter()
     .append("path")
+    .attr("class", (d) => `${d.properties.name}`)
     .attr("d", path)
-    .style("fill", (d) => color(densities[d.id]))
+    .style("fill",(d) => color(densities[d.id]))
     .style("stroke", "black")
     .style("stroke-width", 0.3)
     .on("mouseover", function (event, d) {
@@ -69,20 +73,20 @@ function dataLoaded(results) {
     })
     .on("mousemove", function (event, d) {
       d3.select(this).style("fill", "dodgerblue");
-      const clasName = d.properties.name.split(" ")[0];
-      d3.select(`.${clasName}`).style("fill", "dodgerblue")
+      const className = d.properties.name.split(" ")[0];
+      d3.selectAll(`.${className}`).style("fill", "dodgerblue")
       var density = densities[d.id] ? densities[d.id].toLocaleString() : "N/A";
         console.log("I am in the tooltip")
         d3.select(".tooltip")
         .html("<strong>" + d.properties.name +"</strong><br>Population Density: " +density)
-        .transition().duration(200).style("opacity", 0.9)
+        .transition().duration(150).style("opacity", 0.9)
         .style("left", event.pageX +5 + "px")
         .style("top", event.pageY + 10 + "px");
     })
     .on("mouseout", function (event, d) {
       d3.select(this).style("fill", (d) => color(densities[d.id]));
       const className = d.properties.name.split(" ")[0];
-      d3.select(`.${className}`).style("fill", (d) => color(densities[d.id]))
+      d3.selectAll(`.${className}`).style("fill", (d) => color(densities[d.id]))
       tooltip.transition().duration(500).style("opacity", 0);
     });
 
@@ -97,9 +101,9 @@ function dataLoaded(results) {
   });
   console.log("barChartData", barChartData);
   // margin convention
-  const margin = { top: 80, right: 60, bottom: 40, left: 120 };
-  const width = 900 - margin.right - margin.left;
-  const height = 500 - margin.top - margin.bottom;
+  const margin = { top: 80, right: 20, bottom: 40, left: 160 };
+  const width = 800 - margin.right - margin.left;
+  const height = 800 - margin.top - margin.bottom;
 
   // getting the minimum and maximum of data with the extent
   // const xExtent = d3.extent(barChartData, d => d.revenue)
@@ -155,18 +159,41 @@ function dataLoaded(results) {
 
   // draw bars
   const bars = svgChart
-    // place holder for all bar classes joins it with data if there is none yet or updates
     .selectAll(".bar")
     .data(barChartData)
     .enter()
     .append("rect")
     .attr("class", d => `bar-series ${d.country}`)
     .attr("y", (d) => yScaleBar(d.country))
-    // width is determined by the revenue value
     .attr("width", (d) => xScaleBar(d.cases))
-    // hight is calculated by the yScale bandwidth getter
     .attr("height", yScaleBar.bandwidth())
-    .style("fill", (d) => color(densities[d.id]));
+    .style("fill", (d) => color(densities[d.id]))
+    .on("mousemove", function (event, d) {
+      d3.select(this).style("fill", "dodgerblue");
+      console.log("class to hover from bar", d)
+      const className = d.country.split(" ")[0];
+      d3.selectAll(`path.${className}`).style("fill", "dodgerblue")
+      var density = densities[d.id] ? densities[d.id].toLocaleString() : "N/A";
+      d3.select(".tooltip-chart")
+        .html("<strong>" + d.country +"</strong><br>Population Density: " +density)
+        .transition().duration(150).style("opacity", 0.9)
+        .style("left", event.pageX +5 + "px")
+        .style("top", event.pageY + 10 + "px");
+    })
+    .on("mouseout", function (event, d) {
+      d3.select(this).style("fill", (d) => color(densities[d.id]));
+      const className = d.country.split(" ")[0];
+      d3.selectAll(`path.${className}`).style("fill", (d) => color(densities[d.id]))
+      tooltip2.transition().duration(500).style("opacity", 0);
+
+    });
+
+    
+      var tooltip2 = d3
+      .select(".map-chart-container")
+      .append("div")
+      .attr("class", "tooltip-chart")
+      .style("opacity", 0);
 
   function formatTicks(d) {
     // returns a string value 30G, 50G ...
@@ -177,43 +204,43 @@ function dataLoaded(results) {
       .replace("T", " tril");
   }
   // draw axis
-  // need to pass the position of axis and format the number for the axis
-  // using the d3.format function
+
   const xAxis = d3
     .axisTop(xScaleBar)
-    // custom formating
     .tickFormat(formatTicks)
-    // build in d3 tick formatting
-    //.tickFormat(d3.format("~s"))
-    // adjusting ticks sizes and styling with css
     .tickSizeInner(-height)
     .tickSizeOuter(0);
 
   const xAxisDraw = svgChart.append("g").attr("class", "x axis").call(xAxis);
-  // alternative
-  //xAxisDraw(xAxis);
 
-  const yAxis = d3.axisLeft(yScaleBar).tickSize(0);
+  const yAxis = d3
+    .axisLeft(yScaleBar)
+    .tickSize(0)
+    .tickFormat(formatTickLabel);
 
-  const yAxisDraw = svgChart.append("g").attr("class", "y axis").call(yAxis);
+  const yAxisDraw = svgChart.append("g").attr("class", "y axis").call(yAxis)
+      .selectAll("text") // Select all the tick label elements
+      .style("font-size", "14px") // Set the font size to 16 pixels
+      .style("font-weight", "bold");;
 
   // changing text distance to the axis
   yAxisDraw.selectAll("text").attr("dx", "-0.6em");
 }
 
 function getColors(densityData) {
+  console.log("density data", densityData)
   var sortedDensities = densityData
     .map((x) => parseInt(x.population_density))
     .sort(function (a, b) {
       return parseInt(a) - parseInt(b);
     });
   var maxDensity = d3.max(sortedDensities);
-  console.log("sorted densities", maxDensity);
+  console.log("sorted densities", sortedDensities);
 
   var oranges = ["white"]; // create lower bound for thresholds
 
   sortedDensities.forEach((x) =>
-    oranges.push(d3.interpolateOranges(x / maxDensity))
+    oranges.push(d3.interpolateReds(x / maxDensity))
   );
 
   return d3.scaleThreshold().domain(sortedDensities).range(oranges);
@@ -237,4 +264,15 @@ function prepareBarChartData(data) {
   }));
 
   return dataArray;
+}
+
+function formatTickLabel(d) {
+  // Check if the text is longer than the maximum length
+  if (d.length > 15) {
+    // Truncate the text and add an ellipsis
+    return d.substr(0, 15 - 1) + "...";
+  } else {
+    // Return the original text
+    return d;
+  }
 }

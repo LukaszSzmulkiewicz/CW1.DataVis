@@ -522,10 +522,25 @@ function prepareLineChartDataVacs(data, country, colors) {
   const dates_boosters = total_boosters.map((d) => d[0]);
   const values_boosters = total_boosters.map((d) => d[1]).sort((a, b) => a - b);
 
+  const total_stringency_index = [];
+  let temp_stringency_index = 0;
+  for (const [key, value] of grouped_country_data) {
+    let stringency_index_value = value[0].stringency_index;
+    if (stringency_index_value !== 0) {
+      temp_stringency_index = stringency_index_value;
+      total_stringency_index.push([key, temp_stringency_index]);
+    } else {
+      total_stringency_index.push([key, temp_stringency_index]);
+    }
+  }
+  const dates_stringency_index = total_stringency_index.map((d) => d[0]);
+  const values_stringency_index = total_stringency_index.map((d) => d[1]).sort((a, b) => a - b);
+
   const dates = dates_deaths.concat(
     dates_vaccinations,
     dates_hospital,
-    dates_boosters
+    dates_boosters,
+    dates_stringency_index
   );
 
   const yValuesMax = [
@@ -533,12 +548,16 @@ function prepareLineChartDataVacs(data, country, colors) {
     values_vaccinations[values_vaccinations.length - 1],
     values_hospital[values_hospital.length - 1],
     values_boosters[values_boosters.length - 1],
+    values_stringency_index[values_stringency_index.length - 1],
+
   ];
   const yValuesMin = [
     values_deaths[0],
     values_vaccinations[0],
     values_hospital[0],
     values_boosters[0],
+    dates_stringency_index[0],
+
   ];
   const yMax = d3.max(yValuesMax);
   const yMin = d3.min(yValuesMin);
@@ -567,6 +586,11 @@ function prepareLineChartDataVacs(data, country, colors) {
   const hasTotalBoosters =
     total_boosters.length > 0 &&
     total_boosters[total_boosters.length - 1][1] > 0;
+
+    // Check if the last value in stringency_index is greater than 0
+  const hasStringency_index =
+  total_stringency_index.length > 0 &&
+  total_stringency_index[total_stringency_index.length - 1][1] > 0;
 
   // Create the series array with only the objects that meet the condition
   const series = [];
@@ -603,6 +627,17 @@ function prepareLineChartDataVacs(data, country, colors) {
       lblPosition: [4, 35],
     });
   }
+  if (hasStringency_index) {
+    series.push({
+      name: `index`,
+      lblClass: `index`,
+      lbl: "stringency index",
+      area: `index`,
+      color: `${colors[4]}`,
+      values: total_stringency_index.map((d) => ({ date: d[0], value: d[1] })),
+      lblPosition: [4, 50],
+    });
+  }
   if (hasTotalHospital) {
     series.push({
       name: `hosp`,
@@ -611,9 +646,11 @@ function prepareLineChartDataVacs(data, country, colors) {
       area: `hosp`,
       color: `${colors[1]}`,
       values: total_hospital.map((d) => ({ date: d[0], value: d[1] })),
-      lblPosition: [4, 50],
+      lblPosition: [4, 65],
     });
   }
+
+
 
   // Create the lineData object
   const lineData = {

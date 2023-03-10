@@ -424,7 +424,8 @@ function type(d) {
     total_hosp_admissions_per_hundred: +d.total_hosp_admissions_per_hundred,
     hospital_beds_per_thousand: +d.hospital_beds_per_thousand,
     human_development_index: +d.human_development_index,
-    people_fully_vaccinated: +d.people_fully_vaccinated
+    people_fully_vaccinated: +d.people_fully_vaccinated,
+    stringency_index: +d.stringency_index
   };
 }
 

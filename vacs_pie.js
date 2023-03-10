@@ -143,7 +143,7 @@ function drawPieChartsVacs(data, g, radius) {
       .style("top", event.pageY - 980 + "px");
     })
     .on("mouseleave", function (event, d) {
-      tooltip.style("opacity", 0);
+      d3.select(".tooltip-vacs").style("opacity", 0);
       d3.select(this).style("stroke", "none").style("opacity", 0.8);
     });
 
