@@ -2,8 +2,8 @@ h1, h2 {
     text-align: center;
     font-family:'Avenir', sans-serif;
 }
-.tooltip {
-    position: relative;
+.tooltip-vacs, .tooltip{
+    position: absolute;
     text-align: center;
     background-color: white;
     border: 1px solid black;
@@ -13,7 +13,9 @@ h1, h2 {
     pointer-events: none;
     font-family: 'Avenir', sans-serif;
     font-weight: bold;
-    pointer-events: none
+    pointer-events: none;
+    /* transform: translateX(-50%); */
+  z-index: 9999;
 }
 
 svg {
@@ -52,6 +54,7 @@ text {
 
 .chart-row {
     display: flex;
+    position: relative;
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
@@ -66,9 +69,9 @@ text {
 }
 
 .chart-column {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    column-gap: 20px;
+    column-gap: 20px; */
 }
 .flex-item {
     margin: 10px, 10px, 10px, 10px

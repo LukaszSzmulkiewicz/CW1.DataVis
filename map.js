@@ -64,15 +64,20 @@ function dataLoaded(results) {
     .style("stroke", "black")
     .style("stroke-width", 0.3)
     .on("mouseover", function (event, d) {
+      d3.select().style("opacity", 1);
+      d3.select(this).style("stroke", "black").style("opacity", 1);
+    })
+    .on("mousemove", function (event, d) {
       d3.select(this).style("fill", "dodgerblue");
       const clasName = d.properties.name.split(" ")[0];
       d3.select(`.${clasName}`).style("fill", "dodgerblue")
       var density = densities[d.id] ? densities[d.id].toLocaleString() : "N/A";
-      tooltip.transition().duration(200).style("opacity", 0.9);
-      tooltip
+        console.log("I am in the tooltip")
+        d3.select(".tooltip")
         .html("<strong>" + d.properties.name +"</strong><br>Population Density: " +density)
-        .style("left", d3.event.pageX + 10 + "px")
-        .style("top", d3.event.pageY - 28 + "px");
+        .transition().duration(200).style("opacity", 0.9)
+        .style("left", event.pageX +5 + "px")
+        .style("top", event.pageY + 10 + "px");
     })
     .on("mouseout", function (event, d) {
       d3.select(this).style("fill", (d) => color(densities[d.id]));

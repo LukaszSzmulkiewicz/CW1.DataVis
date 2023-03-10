@@ -6,22 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 	<script src="https://d3js.org/d3.v7.js"></script>
 	<script src="https://unpkg.com/topojson@3"></script>
-	<style>
-		
-	  </style>
-
+	
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-	<script type="module" src="data_prep.js"></script>
-    <script type="module" src="draw.js"></script>
-    <script type="module" src="app.js"></script>
-    <script type="module" src="vacs.js"></script>
-    <script type="module" src="map.js"></script>
+	<script type="module" src="./data_prep.js"></script>
+    <script type="module" src="./draw.js"></script>
+    <script type="module" src="./app.js"></script>
+    <script type="module" src="./vacs.js"></script>
+    <script type="module" src="./map.js"></script>
+	<label for="density-slider">Highlight countries up to density:</label>
+	<input type="range" id="density-slider" name="density-slider" min="0" max="100" value="50" step="1">
 	<div class="chart-row">
-	<div class="map-container"></div>
-	<div class="map-chart-container"></div>
-
+		<div class="map-container"></div>
+		<div class="map-chart-container"></div>
 	</div>
 	<h1>Covid data in seasons across the globe (2020 - 2022) UTC vs GDP per capita</h1>
 		<div class="chart-row">
@@ -72,7 +70,7 @@
 		</div>
 	</div>
 	<h1>Covid outbreak management and Vaccinations</h1>
-	<div id="vacs">
+	<div class="vacs-container">
 		<div class="chart-row">
 			<div class="chart-column">
 				<h2>Gibraltar</h2>
@@ -101,10 +99,6 @@
 			<div class="pie-chart-container3"></div>
 		</div>
 	</div>
-	<div id="tooltip" style="width: 200px;">
-	</div>
-	
-	
 	
 
 

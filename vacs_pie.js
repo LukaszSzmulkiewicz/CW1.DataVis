@@ -84,21 +84,7 @@ function addPieCharts(data) {
 function drawPieChartsVacs(data, g, radius) {
 
   console.log("data in the pie chart", data[2].vaccinatedPercent)
-    // Define the tooltip element
-  // create a tooltip
-  const tooltip = d3
-    .select("#tooltip")
-    .append("div")
-    .style("opacity", 0)
-    .attr("class", "tooltip-vacs")
-    .style("position", "relative")
-    .style("background-color", "white")
-    .style("border", "solid")
-    .style("border-width", "2px")
-    .style("border-radius", "5px")
-    .style("padding", "5px")
-    .attr("font-weight", "bold")
-    .style("font-size", "24px");
+
   // Three function that change the tooltip when user hover / move / leave a cell
   const mouseoverPie = function (event, d) {
     tooltip.style("opacity", 1);
@@ -145,21 +131,29 @@ function drawPieChartsVacs(data, g, radius) {
     .style("stroke-width", "2px")
     .style("opacity", 0.7)
     .on("mouseover", function (event, d) {
-      tooltip.style("opacity", 1);
+      d3.select().style("opacity", 1);
       d3.select(this).style("stroke", "black").style("opacity", 1);
     })
     .on("mousemove", function (event, d) {
       const pieData = d3.select(this);
       console.log("data in mouse move", d)
-      tooltip
-        .html(`${d.data.label}: ${d.data.value}`)
-        .style("left", event.x  + "px")
-        .style("top", event.y - 990 + "px");
+      d3.select(".tooltip-vacs").style("opacity", 0.9)
+      .html(`${d.data.label}: ${d.data.value}`)
+      .style("left", event.pageX + "px")
+      .style("top", event.pageY - 980 + "px");
     })
     .on("mouseleave", function (event, d) {
       tooltip.style("opacity", 0);
       d3.select(this).style("stroke", "none").style("opacity", 0.8);
     });
+
+        // create a tooltip
+    var tooltip = d3
+    .select(".vacs-container")
+    .append("div")
+    .attr("class", "tooltip-vacs")
+    .style("opacity", 0);
+
 
   // Add the number in the middle of the donut chart
   const text = g
