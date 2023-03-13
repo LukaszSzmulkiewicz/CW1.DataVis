@@ -68,10 +68,12 @@ text {
     justify-content: center;
 }
 
-.chart-column {
-    /* display: flex;
-    flex-direction: column;
-    column-gap: 20px; */
+.chart-column button{
+    float: right;
+}
+.map-chart-container{
+    margin-top: 40px;
+
 }
 .flex-item {
     margin: 10px, 10px, 10px, 10px

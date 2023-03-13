@@ -9,20 +9,30 @@
 
 	
     <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
+</head>
+<body>
 	<script type="module" src="./data_prep.js"></script>
     <script type="module" src="./draw.js"></script>
     <script type="module" src="./app.js"></script>
     <script type="module" src="./vacs.js"></script>
     <script type="module" src="./map.js"></script>
-	<label for="density-slider">Highlight countries up to density:</label>
-	<input type="range" id="density-slider" name="density-slider" min="0" max="100" value="50" step="1">
+	<h1>Covid vs Population Density in Europe</h1>
 	<div class="chart-row">
-		<div class="map-container"></div>
+		<div class="chart-column">
+			<div class="chart-row">
+				<h3>Filter by density: </h3>
+				<button class="2020" data-name="twenty">Up to 150 people/ km</button>
+				<button class="2021" data-name="twentyone">Up to 300 people/ km</button>
+				<button class="2022" data-name="twentytwo">Clear Density Filter</button>
+			</div>
+			<div class="map-container"></div>
+		</div>
+		<div class="chart-column">
+		<input type="button" id="brush-button" value="Turn Brush ON">
 		<div class="map-chart-container"></div>
+		</div>
 	</div>
-	<h1>Covid data in seasons across the globe (2020 - 2022) UTC vs GDP per capita</h1>
+	<h1>Covid Data in Seasons Across The Globe (2020 - 2022) UTC vs GDP per capita</h1>
 		<div class="chart-row">
 			<div class="chart-column">
 				<div id="scatter-plot" class="scatter-plot-container"></div>
