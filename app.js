@@ -274,7 +274,7 @@ function ready(data) {
   const scatterDataAutumn2022 = prepareScatterPlotData(chartDataAutumn2022);
 
   const margin = { top: 80, right: 40, bottom: 40, left: 70 };
-  const width = 400 - margin.right - margin.left;
+  const width = 450 - margin.right - margin.left;
   const height = 380 - margin.top - margin.bottom;
 
   // Draw base.
