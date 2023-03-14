@@ -90,10 +90,10 @@ button {
  input {
     color: rgb(77, 75, 75);
     font-weight: bold;
-    padding: 21px;
     background-color: rgb(158, 201, 244);
     border-color: dodgerblue;
     cursor: pointer;
+    margin-top: 60px;
 }
 button:hover {
     font-weight: bold;

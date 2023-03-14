@@ -1,4 +1,4 @@
-var width = 1000;
+var width = 800;
 var height = 700;
 
 var svg = d3
