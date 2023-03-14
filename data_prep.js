@@ -656,7 +656,7 @@ function preparePieChartDataVacs(data, country) {
       vaccinated_total.push([temp_vaccinations, pop_value]);
     }
   }
-
+  const population = vaccinated_total[vaccinated_total.length - 1][1]
   const vaccinatedPercent = (
     (vaccinated_total[vaccinated_total.length - 1][0] /
       vaccinated_total[vaccinated_total.length - 1][1]) *
@@ -666,12 +666,14 @@ function preparePieChartDataVacs(data, country) {
     vaccinated_total[vaccinated_total.length - 1][1] -
     vaccinated_total[vaccinated_total.length - 1][0];
   const populationVaccinated = vaccinated_total[vaccinated_total.length - 1][0];
-
+    console.log("vaccinated total", population)
   // Produce final data.
   const pieData = [
     { label: "Vaccinated", value: populationVaccinated },
     { label: "Not vaccinated", value: populationNotVaccinated },
     { vaccinatedPercent: vaccinatedPercent },
+    { population: population },
+
   ];
 
   return pieData;

@@ -6,34 +6,6 @@ import {
 import { drawLineChartVacs } from "./draw.js";
 import { addPieCharts } from "./vacs_pie.js";
 
-function addAxisLabel(svg, x, y, text) {
-  const label = svg
-    .append("text")
-    .attr("class", "axisLabel")
-    .attr("text-anchor", "end")
-    .attr("x", x)
-    .attr("y", y)
-    .text(text.substring(0, 4))
-    .append("tspan")
-    .attr("x", x)
-    .attr("dy", "1.2em")
-    .text(text.substring(4));
-  return label;
-}
-
-function addYAxisLabel(svg, x, y, text) {
-  const label = svg
-    .append("text")
-    .attr("class", "axisLabel")
-    .attr("text-anchor", "start")
-    .text(text.substring(0, 6))
-    .attr("x", x)
-    .append("tspan")
-    .attr("x", x)
-    .attr("dy", "1.2em")
-    .text(text.substring(6));
-  return label;
-}
 // Main function.
 function ready(data) {
   const colors = ["dodgerblue", "darkorange", "green", "red", "purple", "blue"];
@@ -127,6 +99,28 @@ function ready(data) {
 
   const yAxisDraw = svg.append("g").attr("class", "yAxis").call(yAxis);
 
+   // Defining the pattern for the background image
+     const patternVacs = svg.append("defs")
+     .append("pattern")
+     .attr("id", "bg-image-vacs")
+     .attr("width", 1)
+     .attr("height", 1)
+     .append("image")
+     .attr("xlink:href", "data/gibraltar.jpg")
+     .attr("width", "70%")
+     .attr("height", "100%");
+ 
+   // Set the background image for the SVG
+   svg.append("rect")
+     .attr("x", 0)
+     .attr("y", 0)
+     .attr("width", "70%")
+     .attr("height", "100%")
+     .attr("fill", "url(#bg-image-vacs)")
+     .attr("x", 20)
+     .attr("y", -60)
+     .attr("opacity", 0.15);
+
   // Draw base svg 2.
   const svg1 = d3
     .select(`.line-chart-container-vacs-other`)
@@ -163,6 +157,8 @@ function ready(data) {
     .tickSizeInner(-width);
 
   const yAxisDraw1 = svg1.append("g").attr("class", "yAxis").call(yAxis1);
+
+  
 
   // Second country SVGs
   ///////////////////////////////////////////////////////
@@ -203,6 +199,27 @@ function ready(data) {
 
   const yAxisDraw3 = svg3.append("g").attr("class", "yAxis").call(yAxis);
 
+  // Defining the pattern for the background image
+  const patternVacs1 = svg3.append("defs")
+  .append("pattern")
+  .attr("id", "bg-image-vacs1")
+  .attr("width", 1)
+  .attr("height", 1)
+  .append("image")
+  .attr("xlink:href", "data/peru.jpg")
+  .attr("width", "70%")
+  .attr("height", "100%");
+
+// Set the background image for the SVG
+svg3.append("rect")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("width", "70%")
+  .attr("height", "100%")
+  .attr("fill", "url(#bg-image-vacs1)")
+  .attr("x", 20)
+  .attr("y", -60)
+  .attr("opacity", 0.15);
   // Draw base svg 2.
   const svg4 = d3
     .select(`.line-chart-container-vacs1-other`)
@@ -278,6 +295,28 @@ function ready(data) {
     .tickSizeInner(-width);
 
   const yAxisDraw5 = svg5.append("g").attr("class", "yAxis").call(yAxis);
+  
+  // Defining the pattern for the background image
+  const patternVacs3 = svg5.append("defs")
+  .append("pattern")
+  .attr("id", "bg-image-vacs2")
+  .attr("width", 1)
+  .attr("height", 1)
+  .append("image")
+  .attr("xlink:href", "data/cyprus.jpg")
+  .attr("width", "70%")
+  .attr("height", "100%");
+
+// Set the background image for the SVG
+svg5.append("rect")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("width", "70%")
+  .attr("height", "100%")
+  .attr("fill", "url(#bg-image-vacs2)")
+  .attr("x", 20)
+  .attr("y", -60)
+  .attr("opacity", 0.3);
 
   // Draw base svg 2.
   const svg6 = d3
@@ -354,6 +393,30 @@ function ready(data) {
     .tickSizeInner(-width);
 
   const yAxisDraw7 = svg7.append("g").attr("class", "yAxis").call(yAxis7);
+  
+  // Defining the pattern for the background image
+  const patternVacs4 = svg7.append("defs")
+  .append("pattern")
+  .attr("id", "bg-image-vacs3")
+  .attr("width", 1)
+  .attr("height", 1)
+  .append("image")
+  .attr("xlink:href", "data/germany.jpg")
+  .attr("width", "70%")
+  .attr("height", "100%");
+
+// Set the background image for the SVG
+svg7.append("rect")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("width", "70%")
+  .attr("height", "100%")
+  .attr("fill", "url(#bg-image-vacs3)")
+  .attr("x", 20)
+  .attr("y", -60)
+  .attr("opacity", 0.15);
+
+
 
   // Draw base svg 2.
   const svg8 = d3

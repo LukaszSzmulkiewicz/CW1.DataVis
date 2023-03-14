@@ -83,25 +83,34 @@ function addPieCharts(data) {
 
 function drawPieChartsVacs(data, g, radius) {
 
-  console.log("data in the pie chart", data[2].vaccinatedPercent)
+  console.log("data in the pie chart", data)
+    // Defining the pattern for the background image
+    const pattern = g.append("defs")
+    .append("pattern")
+    .attr("id", "bg-image")
+    .attr("width", 1)
+    .attr("height", 1)
+    .append("image")
+    .attr("xlink:href", "data/syringe.jpg")
+    .attr("width", "100%")
+    .attr("height", "100%");
+
+  // Set the background image for the SVG
+  g.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("fill", "url(#bg-image)")
+    .attr("x", -225)
+    .attr("y", -225)
+    .attr("opacity", 0.4);;
 
   // Three function that change the tooltip when user hover / move / leave a cell
   const mouseoverPie = function (event, d) {
     tooltip.style("opacity", 1);
     d3.select(this).style("stroke", "black").style("opacity", 1);
   };
-  const mousemovePie = function (event, d) {
-    const pieData = d3.select(this);
-    tooltip
-      .html(`${d.data.label}: ${d.data.value}`)
-      .style("left", event.x  + "px")
-      .style("top", event.y - 990 + "px");
-  };
-  const mouseleavePie = function (event, d) {
-    tooltip.style("opacity", 0);
-    d3.select(this).style("stroke", "none").style("opacity", 0.8);
-  };
-
 
   // Set the colors for the pie chart slices
   const colors = d3
@@ -163,7 +172,18 @@ function drawPieChartsVacs(data, g, radius) {
 
   // Calculate the position of the number in the middle of the donut chart
   const textBBox = text.node().getBBox();
-  text.attr("transform", `translate(0, ${textBBox.height / 2})`);
+  text.attr("transform", `translate(0, ${textBBox.height / 2} + 20)`);
+
+  // Draw header and subheader.
+  const header = g
+  .append("g")
+  .attr("class", "scatter-header")
+  .attr("transform", `translate(-80, -${420/2 -20})`)
+  .append("text");
+// first title
+header.append("tspan").transition().text(`Population: ${data[3].population}`);
+
+
 
 }
 export { addPieCharts };

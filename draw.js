@@ -19,13 +19,7 @@
     return label;
   }
 function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subheader, text){
-    // drawScatterPlot(lineChartData)
-    // Define area generator
-    const areaGen = d3.area()
-    .x(d => xScale(d.date))
-    .y0(yScale(lineChartData.yMin))
-    .y1(d => yScale(d.value));
-
+    
         // line generator 
   const lineGen = d3
   // calling d3 line to construct line generator 
@@ -48,12 +42,6 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
    .transition()
    .duration(1000)
    .call(yAxis); 
-         // Rotate xAxis ticks
- d3.selectAll(".xAxis .tick text")
- .attr("transform", "rotate(-22)")
-
-
-
 
  // Create a update selection: bind to the new data
    const u = svg.selectAll('.line-series')
@@ -90,13 +78,12 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
   .join(
     enter => enter
       .append('text')
-      .transition()
       .attr('class', d => `series-labels ${d.lblClass.toLowerCase()}`)
       .attr('x', d => d.lblPosition[0])
       .attr('y', d => d.lblPosition[1])
       .text(d => d.name)
       .style('dominant-baseline', 'central')
-      .style('font-size', '0.8em')
+      .style('font-size', '1em')
       .style('font-weight', 'bold')
       .style('fill', d => d.color),
         
@@ -107,7 +94,7 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
     .attr('y', d => d.lblPosition[1])
     .text(d => d.name)
     .style('dominant-baseline', 'central')
-    .style('font-size', '0.8em')
+    .style('font-size', '1em')
     .style('font-weight', 'bold')
     .style('fill', d => d.color),
    
@@ -123,7 +110,9 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
   }
 
   function updateScatterPlot (data, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter, subheader, text){
+       
 
+    // updating scales 
     xScaleScatter.domain([data.xMax, data.xMin]);
     svgScatter.selectAll(".xAxis")
        .transition()
@@ -144,10 +133,11 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
       .attr('transform', `translate(5, -40)`)
       .append('text')
 
+          // Rotate xAxis ticks
+      d3.selectAll(".xAxis .tick text")
+      .attr("transform", "rotate(-22)")
 
-    // Move xAxis labels down
-    svgScatter.selectAll(".xAxis .tick text")
-    .style("transform", "translateY(2px)");
+
 
     // Subheader content.
    subheader.join().text(`${text}`)
@@ -175,7 +165,7 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
             .attr('r', 3)
             .style('fill', d => d.color)
             // makes the circles lighter so can distinguish one from the other when one is positioned on the other
-            .attr('fill-opacity', 0.7),
+            .attr('fill-opacity', 0.8),
             
           update => update
             .transition()
@@ -221,11 +211,7 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
         
   }
   function drawLineChartVacs(lineChartData, xScale, yScale, svg, xAxis, yAxis){
-    // Define area generator
-    const areaGen = d3.area()
-    .x(d =>  xScale(d.date))
-    .y0(yScale(lineChartData.yMin))
-    .y1(d => yScale(d.value));
+     
 
           // line generator 
     const lineGen = d3
@@ -252,8 +238,6 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
           // Rotate xAxis ticks
   d3.selectAll(".xAxis .tick text")
   .attr("transform", "rotate(-22)")
-
-  //  const yAxisLabel = addYAxisLabel(svg, -40,  -30, "Total Cases");
 
 
   // Create a update selection: bind to the new data
@@ -283,7 +267,6 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
     .join(
       enter => enter
         .append('text')
-        .transition()
         .attr('class', d => `series-labels ${d.name.toLowerCase()}`)
         .attr('x', d => d.lblPosition[0])
         .attr('y', d => d.lblPosition[1])
@@ -304,6 +287,15 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
     .attr("class", "tooltip-seasons")
     .style("opacity", 0);
 
+  //    Draw header and subheader.
+    const header = svg
+    .append("g")
+    .attr("class", "scatter-header")
+    .attr("transform", `translate(70, -40)`)
+    .append("text");
+  // first title
+  header.append("tspan").transition().text("Total cases per houndred");
+
   }
   function mouseover(d, i){
     if(i.lblClass!=null){
@@ -316,10 +308,7 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
         .transition()
         .attr('r', 7)
         .attr('fill-opacity', 1)
-      d3.selectAll(`.circle-series.${i.lblClass.toLowerCase()}`)
-        .transition()
-        .attr('r', 6)
-        .attr('fill-opacity', 1)
+    
     }
     
   }
@@ -329,15 +318,11 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
     d3.selectAll(`.series-labels`).style('stroke-width', 2)
       .transition()
       .style('font-size', '1em')
-      .attr('x', 7);
+      .attr('x', 4);
     d3.selectAll(`.circle-series`)
       .transition()
       .attr('r', 3)
-      .attr('fill-opacity', 0.7)
-    d3.selectAll(`.circle-series`)
-      .transition()
-      .attr('r', 3)
-      .attr('fill-opacity', 0.7)
+      .attr('fill-opacity', 0.8)
   }
   
 

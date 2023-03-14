@@ -46,6 +46,15 @@ text {
     stroke-width: 0.5;
     stroke-dasharray: 4, 2;
 }
+.xAxisSC .domain {
+    stroke: #bbb;   
+}
+
+.xAxisSC .tick line {
+    stroke: #bbb;
+    stroke-width: 0.5;
+    stroke-dasharray: 4, 2;
+}
 
 .axisLabel {
     font-size: 12px;
@@ -101,7 +110,7 @@ button:hover {
     cursor: pointer;
 }
 
-.series-labels:hover, .line-series:hover {
+.series-labels:hover, .line-series:hover, .circle-series:hover {
     cursor: pointer;
 }
 

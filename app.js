@@ -323,7 +323,7 @@ function ready(data) {
   const yAxisDraw = svg.append("g").attr("class", "yAxis").call(yAxis);
 
   // Adding Y axis label
-  addYAxisLabel(svg, -150, -40, "Total Cases");
+  addYAxisLabel(svg, -150, -margin.left+15, "Total Cases");
 
   //    Draw header and subheader.
   const header = svg
@@ -341,6 +341,28 @@ function ready(data) {
     .attr("dy", "1.5em")
     .style("font-size", "0.8em")
     .style("fill", "#555");
+
+       // Defining the pattern for the background image
+       const pattern = svg.append("defs")
+       .append("pattern")
+       .attr("id", "bg-image1")
+       .attr("width", 1)
+       .attr("height", 1)
+       .append("image")
+       .attr("xlink:href", "data/world.jpg")
+       .attr("width", "70%")
+       .attr("height", "100%");
+   
+     // Set the background image for the SVG
+     svg.append("rect")
+       .attr("x", 0)
+       .attr("y", 0)
+       .attr("width", "90%")
+       .attr("height", "100%")
+       .attr("fill", "url(#bg-image1)")
+       .attr("x", 20)
+       .attr("y", -60)
+       .attr("opacity", 0.3);
 
   //////////////////////////////////////////////////////////////////
   //second svg
@@ -391,7 +413,7 @@ function ready(data) {
   const yAxisDraw1 = svg1.append("g").attr("class", "yAxis").call(yAxis1);
 
   // Adding Y axis label
-  addYAxisLabel(svg1, -150, -40, "Total Cases");
+  addYAxisLabel(svg1, -150, -margin.left+15, "Total Cases");
 
   //    Draw header and subheader.
   const header1 = svg1
@@ -409,6 +431,28 @@ function ready(data) {
     .attr("dy", "1.5em")
     .style("font-size", "0.8em")
     .style("fill", "#555");
+
+       // Defining the pattern for the background image
+       const pattern1 = svg1.append("defs")
+       .append("pattern")
+       .attr("id", "bg-image1")
+       .attr("width", 1)
+       .attr("height", 1)
+       .append("image")
+       .attr("xlink:href", "data/world.jpg")
+       .attr("width", "70%")
+       .attr("height", "100%");
+   
+     // Set the background image for the SVG
+     svg1.append("rect")
+       .attr("x", 0)
+       .attr("y", 0)
+       .attr("width", "90%")
+       .attr("height", "100%")
+       .attr("fill", "url(#bg-image1)")
+       .attr("x", 20)
+       .attr("y", -60)
+       .attr("opacity", 0.3);
 
   //////////////////////////////////////////////////////////////////
   //third svg
@@ -461,7 +505,7 @@ function ready(data) {
   const yAxisDraw2 = svg2.append("g").attr("class", "yAxis").call(yAxis2);
 
   // Adding Y axis label
-  addYAxisLabel(svg2, -150, -40, "Total Cases");
+  addYAxisLabel(svg2, -150, -margin.left+15, "Total Cases");
 
   //    Draw header and subheader.
   const header2 = svg2
@@ -479,6 +523,28 @@ function ready(data) {
     .attr("dy", "1.5em")
     .style("font-size", "0.8em")
     .style("fill", "#555");
+
+       // Defining the pattern for the background image
+       const pattern2 = svg2.append("defs")
+       .append("pattern")
+       .attr("id", "bg-image1")
+       .attr("width", 1)
+       .attr("height", 1)
+       .append("image")
+       .attr("xlink:href", "data/world.jpg")
+       .attr("width", "70%")
+       .attr("height", "100%");
+   
+     // Set the background image for the SVG
+     svg2.append("rect")
+       .attr("x", 0)
+       .attr("y", 0)
+       .attr("width", "90%")
+       .attr("height", "100%")
+       .attr("fill", "url(#bg-image1)")
+       .attr("x", 20)
+       .attr("y", -60)
+       .attr("opacity", 0.3);
 
   //////////////////////////////////////////////////////////////////
   //fourth svg
@@ -531,7 +597,7 @@ function ready(data) {
   const yAxisDraw3 = svg3.append("g").attr("class", "yAxis").call(yAxis3);
 
   // Adding Y axis label
-  addYAxisLabel(svg3, -150, -40, "Total Cases");
+  addYAxisLabel(svg3, -150, -margin.left+15, "Total Cases");
   //    Draw header and subheader.
   const header3 = svg3
     .append("g")
@@ -548,6 +614,28 @@ function ready(data) {
     .attr("dy", "1.5em")
     .style("font-size", "0.8em")
     .style("fill", "#555");
+
+      // Defining the pattern for the background image
+      const pattern3 = svg3.append("defs")
+      .append("pattern")
+      .attr("id", "bg-image1")
+      .attr("width", 1)
+      .attr("height", 1)
+      .append("image")
+      .attr("xlink:href", "data/world.jpg")
+      .attr("width", "70%")
+      .attr("height", "100%");
+  
+    // Set the background image for the SVG
+    svg3.append("rect")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", "90%")
+      .attr("height", "100%")
+      .attr("fill", "url(#bg-image1)")
+      .attr("x", 20)
+      .attr("y", -60)
+      .attr("opacity", 0.3);
   //////////////////////////////////////////////////////////////////////////////////
   ///////////Scatter plots
   ///////////////////////////////////////////////////////////////////////////////////
@@ -570,6 +658,7 @@ function ready(data) {
     .axisBottom(xScaleScatter)
     // to specify number of ticks
     .ticks(10)
+    .tickPadding(5)
     .tickFormat(formatTicks)
     .tickSizeInner(-height)
     .tickSizeOuter(0);
@@ -596,7 +685,7 @@ function ready(data) {
 
     // Adding labels to axis
     addXAxisLabel(svgScatter, 220, 290,"GDP per capita (USD)");
-    addYAxisLabel(svgScatter,-190,-40," Total cases per million");
+    addYAxisLabel(svgScatter,-190, -margin.left+15," Total cases per million");
 
       //    Draw header and subheader.
   const headerScatter = svgScatter
@@ -605,7 +694,7 @@ function ready(data) {
   .attr("transform", `translate(0, -40)`)
   .append("text");
 // first title
-headerScatter.append("tspan").transition().text("Top 5 countries in total cases");
+headerScatter.append("tspan").transition().text("Top 5 countries in total cases/ continent");
 
 const subheaderScatter = headerScatter.append("tspan");
 
@@ -615,6 +704,27 @@ subheaderScatter
   .style("font-size", "0.8em")
   .style("fill", "#555");
 
+     // Defining the pattern for the background image
+     const patternScatter = svgScatter.append("defs")
+     .append("pattern")
+     .attr("id", "bg-image2")
+     .attr("width", 1)
+     .attr("height", 1)
+     .append("image")
+     .attr("xlink:href", "data/gdp.jpg")
+     .attr("width", "70%")
+     .attr("height", "100%");
+ 
+   // Set the background image for the SVG
+   svgScatter.append("rect")
+     .attr("x", 0)
+     .attr("y", 0)
+     .attr("width", "70%")
+     .attr("height", "100%")
+     .attr("fill", "url(#bg-image2)")
+     .attr("x", 20)
+     .attr("y", -60)
+     .attr("opacity", 0.15);
   //////////////////////////////////////////////////
   /// Scatter plt 2
   // ///////////////////////////
@@ -634,6 +744,7 @@ subheaderScatter
     .axisBottom(xScaleScatter1)
     // to specify number of ticks
     .ticks(10)
+    .tickPadding(5)
     .tickFormat(formatTicks)
     .tickSizeInner(-height)
     .tickSizeOuter(0);
@@ -658,7 +769,7 @@ subheaderScatter
     .attr("class", "yAxis")
     .call(yAxisScatter1);
   addXAxisLabel(svgScatter1, 220, 290,"GDP per capita (USD)");
-  addYAxisLabel(svgScatter1,-190,-40," Total cases per million");
+  addYAxisLabel(svgScatter1,-190, -margin.left+15," Total cases per million");
 
   
       //    Draw header and subheader.
@@ -668,7 +779,7 @@ subheaderScatter
       .attr("transform", `translate(0, -40)`)
       .append("text");
     // first title
-    headerScatter1.append("tspan").transition().text("Top 5 countries in total cases");
+    headerScatter1.append("tspan").transition().text("Top 5 countries in total cases/ continent");
     
     const subheaderScatter1 = headerScatter1.append("tspan");
 
@@ -678,6 +789,27 @@ subheaderScatter
   .style("font-size", "0.8em")
   .style("fill", "#555");
 
+      // Defining the pattern for the background image
+      const patternScatter1 = svgScatter1.append("defs")
+      .append("pattern")
+      .attr("id", "bg-image2")
+      .attr("width", 1)
+      .attr("height", 1)
+      .append("image")
+      .attr("xlink:href", "data/gdp.jpg")
+      .attr("width", "70%")
+      .attr("height", "100%");
+  
+    // Set the background image for the SVG
+    svgScatter1.append("rect")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", "70%")
+      .attr("height", "100%")
+      .attr("fill", "url(#bg-image2)")
+      .attr("x", 20)
+      .attr("y", -60)
+      .attr("opacity", 0.15);
   //////////////////////////////////////////////////
   /// Scatter plt 3
   // ///////////////////////////
@@ -697,6 +829,7 @@ subheaderScatter
     .axisBottom(xScaleScatter2)
     // to specify number of ticks
     .ticks(10)
+    .tickPadding(5)
     .tickFormat(formatTicks)
     .tickSizeInner(-height)
     .tickSizeOuter(0);
@@ -722,7 +855,7 @@ subheaderScatter
     .call(yAxisScatter2);
 
   addXAxisLabel(svgScatter2, 220, 290,"GDP per capita (USD)");
-  addYAxisLabel(svgScatter2,-190,-40," Total cases per million");
+  addYAxisLabel(svgScatter2,-190, -margin.left+15," Total cases per million");
 
   
       //    Draw header and subheader.
@@ -732,7 +865,7 @@ subheaderScatter
       .attr("transform", `translate(0, -40)`)
       .append("text");
     // first title
-    headerScatter2.append("tspan").transition().text("Top 5 countries in total cases");
+    headerScatter2.append("tspan").transition().text("Top 5 countries in total cases/ continent");
     
     const subheaderScatter2 = headerScatter2.append("tspan");
 
@@ -741,6 +874,28 @@ subheaderScatter
   .attr("dy", "1.5em")
   .style("font-size", "0.8em")
   .style("fill", "#555");
+
+       // Defining the pattern for the background image
+       const patternScatter2 = svgScatter2.append("defs")
+       .append("pattern")
+       .attr("id", "bg-image2")
+       .attr("width", 1)
+       .attr("height", 1)
+       .append("image")
+       .attr("xlink:href", "data/gdp.jpg")
+       .attr("width", "70%")
+       .attr("height", "100%");
+   
+     // Set the background image for the SVG
+     svgScatter2.append("rect")
+       .attr("x", 0)
+       .attr("y", 0)
+       .attr("width", "70%")
+       .attr("height", "100%")
+       .attr("fill", "url(#bg-image2)")
+       .attr("x", 20)
+       .attr("y", -60)
+       .attr("opacity", 0.15);
   //////////////////////////////////////////////////
   /// Scatter plt 4
   // ///////////////////////////
@@ -760,6 +915,7 @@ subheaderScatter
     .axisBottom(xScaleScatter3)
     // to specify number of ticks
     .ticks(10)
+    .tickPadding(5)
     .tickFormat(formatTicks)
     .tickSizeInner(-height)
     .tickSizeOuter(0);
@@ -785,7 +941,7 @@ subheaderScatter
     .call(yAxisScatter3);
 
     addXAxisLabel(svgScatter3, 220, 290,"GDP per capita (USD)");
-    addYAxisLabel(svgScatter3,-190,-40," Total cases per million");
+    addYAxisLabel(svgScatter3,-190, -margin.left+15," Total cases per million");
 
     
       //    Draw header and subheader.
@@ -795,7 +951,7 @@ subheaderScatter
   .attr("transform", `translate(0, -40)`)
   .append("text");
 // first title
-headerScatter3.append("tspan").transition().text("Top 5 countries in total cases");
+headerScatter3.append("tspan").transition().text("Top 5 countries in total cases/ continent");
 
 const subheaderScatter3 = headerScatter3.append("tspan");
 
@@ -804,6 +960,28 @@ subheaderScatter3
   .attr("dy", "1.5em")
   .style("font-size", "0.8em")
   .style("fill", "#555");
+
+     // Defining the pattern for the background image
+     const patternScatter3 = svgScatter3.append("defs")
+     .append("pattern")
+     .attr("id", "bg-image2")
+     .attr("width", 1)
+     .attr("height", 1)
+     .append("image")
+     .attr("xlink:href", "data/gdp.jpg")
+     .attr("width", "70%")
+     .attr("height", "100%");
+ 
+   // Set the background image for the SVG
+   svgScatter3.append("rect")
+     .attr("x", 0)
+     .attr("y", 0)
+     .attr("width", "70%")
+     .attr("height", "100%")
+     .attr("fill", "url(#bg-image2)")
+     .attr("x", 20)
+     .attr("y", -60)
+     .attr("opacity", 0.15);
 
   // Click handler.
   function click() {
@@ -835,7 +1013,7 @@ subheaderScatter3
       updateScatterPlot(scatterDataWinter2022, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter, subheaderScatter, "Winter 2022");
       updateScatterPlot(scatterDataSpring2022, xScaleScatter1, yScaleScatter1, svgScatter1, xAxisScatter1, yAxisScatter1,subheaderScatter1, "Spring 2022");
       updateScatterPlot(scatterDataSummer2022, xScaleScatter2, yScaleScatter2, svgScatter2, xAxisScatter2, yAxisScatter2, subheaderScatter2, "Summer 2022");
-      updateScatterPlot(scatterDataAutumn2022, xScaleScatter3, yScaleScatter3, svgScatter3, xAxisScatter3, yAxisScatter3, subheaderScatter2, "Autumn 2022");
+      updateScatterPlot(scatterDataAutumn2022, xScaleScatter3, yScaleScatter3, svgScatter3, xAxisScatter3, yAxisScatter3, subheaderScatter3, "Autumn 2022");
     }
   }
 
@@ -851,6 +1029,11 @@ subheaderScatter3
   updateScatterPlot(scatterDataSpring2020, xScaleScatter1, yScaleScatter1, svgScatter1, xAxisScatter1, yAxisScatter1, subheaderScatter1, "Spring 2020");
   updateScatterPlot(scatterDataSummer2020, xScaleScatter2, yScaleScatter2, svgScatter2, xAxisScatter2, yAxisScatter2, subheaderScatter2, "Summer 2020");
   updateScatterPlot(scatterDataAutumn2020, xScaleScatter3, yScaleScatter3, svgScatter3, xAxisScatter3, yAxisScatter3, subheaderScatter3,"Autumn 2020");
+
+        // Rotate xAxis ticks
+      // d3.selectAll(".xAxis .tick text")
+      // .attr("transform", "rotate(-22)")
+
 }
 
 // Type conversion, loops through the data and returns the correct datatypes.
