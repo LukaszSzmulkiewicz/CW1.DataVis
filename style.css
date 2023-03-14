@@ -24,6 +24,7 @@ svg {
   
 text {
     font-family: 'Avenir', sans-serif;
+    font-weight: bold;
 }
 
 .yAxis .domain {

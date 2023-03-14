@@ -27,7 +27,6 @@ function prepareLineChartData(data, continents, colors) {
     (a, b) => a[0] - b[0]
   );
   const datesAsia = totalCasesAsia.map((d) => d[0]);
-  console.log("total cases asia", totalCasesAsia);
   const groupByEurope = (d) => d.date;
   const reduceTotalCasesEurope = (values) =>
     d3.sum(values, (leaf) => leaf.total_cases);
@@ -122,8 +121,6 @@ function prepareLineChartData(data, continents, colors) {
   // const yMax2 = yValuesMax.sort((a, b) => a - b) - testing max
   // const yMin2 = yValuesMin.sort((a, b) => a - b) - testing min
 
-  console.log("yMax", yMax);
-  console.log("yMin", yMin);
 
   // Produce final data.
   const lineData = {
@@ -212,14 +209,12 @@ function prepareScatterPlotData(data) {
     asiaTop5[i][1].color = "dodgerblue";
   }
   const asiaObjects = [];
-  console.log("Asia", asia);
   console.log("Asia top 5", asiaTop5);
   const asiaCasesTotal = asiaTop5.map((d) => d[1].total_cases_per_million);
   const asiaGDPTotal = asiaTop5.map((d) => d[1].gdp_per_capita);
   for (const [, obj] of asiaTop5) {
     asiaObjects.push(obj);
   }
-  console.log("Asia objects", asiaObjects);
 
   const europe = {};
   data.data[1].forEach((entry) => {
@@ -230,7 +225,6 @@ function prepareScatterPlotData(data) {
   const europeTop5 = Object.entries(europe)
     .sort(([, a], [, b]) => b.total_cases - a.total_cases)
     .slice(0, 5);
-  console.log("europe top 5", europeTop5);
   for (let i = 0; i < europeTop5.length; i++) {
     europeTop5[i][1].label = "europe";
     europeTop5[i][1].color = "darkorange";
@@ -238,14 +232,11 @@ function prepareScatterPlotData(data) {
     // add new property to each object
   }
   const europeObjects = [];
-  console.log("europe", europe);
   const europeCasesTotal = europeTop5.map((d) => d[1].total_cases_per_million);
   const europeGDPTotal = europeTop5.map((d) => d[1].gdp_per_capita);
   for (const [, obj] of europeTop5) {
     europeObjects.push(obj);
   }
-  console.log("europe objects", europeObjects);
-
   const africa = {};
   data.data[2].forEach((entry) => {
     if (entry.location) {
@@ -255,7 +246,6 @@ function prepareScatterPlotData(data) {
   const africaTop5 = Object.entries(africa)
     .sort(([, a], [, b]) => b.total_cases - a.total_cases)
     .slice(0, 5);
-  console.log("europe top 5", africaTop5);
   for (let i = 0; i < africaTop5.length; i++) {
     africaTop5[i][1].label = "africa";
     africaTop5[i][1].color = "green";
@@ -263,13 +253,11 @@ function prepareScatterPlotData(data) {
     // add new property to each object
   }
   const africaObjects = [];
-  console.log("europe", europe);
   const africaCasesTotal = africaTop5.map((d) => d[1].total_cases_per_million);
   const africaGDPTotal = africaTop5.map((d) => d[1].gdp_per_capita);
   for (const [, obj] of africaTop5) {
     africaObjects.push(obj);
   }
-  console.log("europe objects", africaObjects);
 
   const nAmerica = {};
   data.data[3].forEach((entry) => {
@@ -280,7 +268,6 @@ function prepareScatterPlotData(data) {
   const nAmericaTop5 = Object.entries(nAmerica)
     .sort(([, a], [, b]) => b.total_cases - a.total_cases)
     .slice(0, 5);
-  console.log("nAmerica top 5", nAmericaTop5);
   for (let i = 0; i < nAmericaTop5.length; i++) {
     nAmericaTop5[i][1].label = "namerica";
     nAmericaTop5[i][1].color = "red";
@@ -288,7 +275,6 @@ function prepareScatterPlotData(data) {
     // add new property to each object
   }
   const nAmericaObjects = [];
-  console.log("nAmerica", nAmerica);
   const nAmericaCasesTotal = nAmericaTop5.map(
     (d) => d[1].total_cases_per_million
   );
@@ -296,8 +282,6 @@ function prepareScatterPlotData(data) {
   for (const [, obj] of nAmericaTop5) {
     nAmericaObjects.push(obj);
   }
-  console.log("nAmerica objects", nAmericaObjects);
-
   const sAmerica = {};
   data.data[4].forEach((entry) => {
     if (entry.location) {
@@ -307,7 +291,6 @@ function prepareScatterPlotData(data) {
   const sAmericaTop5 = Object.entries(sAmerica)
     .sort(([, a], [, b]) => b.total_cases - a.total_cases)
     .slice(0, 5);
-  console.log("nAmerica top 5", sAmericaTop5);
   for (let i = 0; i < sAmericaTop5.length; i++) {
     sAmericaTop5[i][1].label = "samerica";
     sAmericaTop5[i][1].color = "purple";
@@ -315,7 +298,6 @@ function prepareScatterPlotData(data) {
     // add new property to each object
   }
   const sAmericaObjects = [];
-  console.log("sAmerica", sAmerica);
   const sAmericaCasesTotal = sAmericaTop5.map(
     (d) => d[1].total_cases_per_million
   );
@@ -323,7 +305,6 @@ function prepareScatterPlotData(data) {
   for (const [, obj] of sAmericaTop5) {
     sAmericaObjects.push(obj);
   }
-  console.log("nAmerica objects", sAmericaObjects);
   const oceania = {};
   data.data[5].forEach((entry) => {
     if (entry.location) {
@@ -333,7 +314,6 @@ function prepareScatterPlotData(data) {
   const oceaniaTop5 = Object.entries(oceania)
     .sort(([, a], [, b]) => b.total_cases - a.total_cases)
     .slice(0, 5);
-  console.log("nAmerica top 5", oceaniaTop5);
   for (let i = 0; i < oceaniaTop5.length; i++) {
     oceaniaTop5[i][1].label = "oceania";
     oceaniaTop5[i][1].color = "blue";
@@ -341,7 +321,6 @@ function prepareScatterPlotData(data) {
     // add new property to each object
   }
   const oceaniaObjects = [];
-  console.log("sAmerica", oceania);
   const oceaniaCasesTotal = oceaniaTop5.map(
     (d) => d[1].total_cases_per_million
   );
@@ -349,7 +328,6 @@ function prepareScatterPlotData(data) {
   for (const [, obj] of oceaniaTop5) {
     oceaniaObjects.push(obj);
   }
-  console.log("oceania objects", oceaniaObjects);
 
   const minMaxCases = asiaCasesTotal.concat(
     europeCasesTotal,
@@ -371,7 +349,6 @@ function prepareScatterPlotData(data) {
   const xMinGDP = d3.max(minMaxGDP);
   const xMaxGDP = d3.min(minMaxGDP);
 
-  console.log("asia top", asiaTop5[0]);
   const lineData = {
     series: [
       {
@@ -665,7 +642,6 @@ function prepareLineChartDataVacs(data, country, colors) {
 
 function preparePieChartDataVacs(data, country) {
   const grouped_country_data = d3.group(data.get(country), (d) => d.date);
-  console.log("grouped by country", grouped_country_data);
   const vaccinated_total = [];
   let temp_vaccinations = 0;
 
