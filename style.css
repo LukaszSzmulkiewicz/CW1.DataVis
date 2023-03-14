@@ -1,8 +1,8 @@
-h1, h2 {
+h1, h2, h3 {
     text-align: center;
     font-family:'Avenir', sans-serif;
 }
-.tooltip-vacs, .tooltip, .tooltip-chart{
+.tooltip-vacs, .tooltip, .tooltip-chart, .tooltip-seasons{
     position: absolute;
     text-align: center;
     background-color: white;

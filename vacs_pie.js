@@ -137,8 +137,8 @@ function drawPieChartsVacs(data, g, radius) {
       const pieData = d3.select(this);
       d3.select(".tooltip-vacs").style("opacity", 0.9)
       .html(`${d.data.label}: ${d.data.value}`)
-      .style("left", event.pageX + "px")
-      .style("top", event.pageY - 980 + "px");
+      .style("left", event.pageX -60 + "px")
+      .style("top", event.pageY - 50 + "px");
     })
     .on("mouseleave", function (event, d) {
       d3.select(".tooltip-vacs").style("opacity", 0);

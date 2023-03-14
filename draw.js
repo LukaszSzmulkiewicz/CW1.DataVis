@@ -11,26 +11,19 @@ function transition(selection) {
     const label = svg.append("text")
       .attr("class", "axisLabel")
       .attr("text-anchor", "start")
-      .text(text.substring(0, 6))
       .attr("x", x)
       .attr("y", y)
-      .append("tspan")
-      .attr("x", x)
-      .attr("dy", "1.2em")
-      .text(text.substring(6));
+      .text(text)
+      .attr("transform", "rotate(-90)");
     return label;
   }
   function addAxisLabel(svg, x, y, text) {
     const label = svg.append("text")
       .attr("class", "axisLabel")
       .attr("text-anchor", "end")
-      .attr("x", x)
+      .attr("x", x + text.length)
       .attr("y", y)
-      .text(text.substring(0, 4))
-      .append("tspan")
-          .attr("x", x+5)
-          .attr("dy", "1.2em")
-          .text(text.substring(5));
+      .text(text)
     return label;
   }
 function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
@@ -67,7 +60,7 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
  d3.selectAll(".xAxis .tick text")
  .attr("transform", "rotate(-22)")
 
- const yAxisLabel = addYAxisLabel(svg, -40,  -30, "Total Cases");
+ const yAxisLabel = addYAxisLabel(svg, -150,  -40, "Total Cases");
 
 
  // Create a update selection: bind to the new data
@@ -96,6 +89,8 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
 
     exit => exit.remove()
   )
+  .on('mouseover', mouseover)
+  .on("mouseout", mouseout);
 
   svg
   .selectAll('.series-labels')
@@ -126,6 +121,8 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
    
     exit => exit.remove()
   )
+  .on('mouseover', mouseover)
+  .on("mouseout", mouseout);
   
     // // path hover
     // d3.selectAll('path')
@@ -186,11 +183,7 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
   }
 
   function updateScatterPlot (data, xScaleScatter, yScaleScatter, svgScatter, xAxisScatter, yAxisScatter){
-    const margin = { top: 80, right: 60, bottom: 40, left: 60 };
-    const width = 450 - margin.right - margin.left;
-    const height = 380 - margin.top - margin.bottom;
-    
-    console.log("data in the scatter", data)
+
     xScaleScatter.domain([data.xMax, data.xMin]);
     svgScatter.selectAll(".xAxis")
        .transition()
@@ -205,8 +198,8 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
          
    
      // adding scatter plot labels
-     const xAxisLabel = addAxisLabel(svgScatter, width + 40, height + 10, "GDP/ capita");     
-     const yAxisLabel = addYAxisLabel(svgScatter, -40,  -30, "Cases/mil");
+     const xAxisLabel = addAxisLabel(svgScatter, 180, 290, "Cases per million");     
+     const yAxisLabel = addYAxisLabel(svgScatter, -180,  -40, "GDP per capita (USD)");
 
     // // Draw header.
     // const header = svg
@@ -234,8 +227,9 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
       // calling add label function and passing the parameters 
       // .call(addLabel, 'Budget', 25);
   
-    // // moving the text away from the bottom axis 
-    // xAxisDraw.selectAll('text').attr('dy', '1em');
+    // Move xAxis labels down
+    svgScatter.selectAll(".xAxis .tick text")
+    .style("transform", "translateY(2px)");
       
    
   
@@ -265,7 +259,6 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
             // makes the circles lighter so can distinguish one from the other when one is positioned on the other
             .attr('fill-opacity', 0.7),
             
-            
           update => update
             .transition()
             .duration(1500)
@@ -275,8 +268,37 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
             .style('fill', d => d.color),
       
           exit => exit.remove()
-  
         )
+        .on("mousemove", function (event, d) {
+          console.log("circles data", d)
+          d3.select(this).transition().attr('r', 8)
+          d3.select(".tooltip-seasons")
+            .html(
+              "<strong> Continent: " +
+                d.continent +
+                "</strong><br><strong>Country: " +
+                d.location +
+                "</strong><br>GDP per capita: " +
+                d.total_cases_per_million +
+                "</strong><br>Total Cases Per Million: " +
+                d.gdp_per_capita 
+            )
+            .transition()
+            .duration(150)
+            .style("opacity", 0.9)
+            .style("left", event.pageX -120 + "px")
+            .style("top", event.pageY -100 + "px");
+        })
+        .on("mouseout", function (event, d) {
+          d3.select(this).transition().attr('r', 3);
+          d3.select(".tooltip-seasons").transition().duration(500).style("opacity", 0);
+        });
+
+        var tooltip = d3
+        .select(".seasons-container")
+        .append("div")
+        .attr("class", "tooltip-seasons")
+        .style("opacity", 0);
      
         
   }
@@ -355,46 +377,50 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
       
     )
     .on('mouseover', mouseover)
-    .on("mouseout", mouseout);
+    .on("mouseout", mouseout)
 
-      function mouseover(d, i){
-        if(i.lblClass!=null){
-          d3.selectAll(`.${i.lblClass.toLowerCase()}`).style('stroke-width', 5)
-          d3.selectAll(`.${i.lblClass.toLowerCase()}`)
-            .transition()
-            .attr('x', 10)
-            .style('font-size', '1.5em')
-          d3.selectAll(`.circle-series.${i.lblClass.toLowerCase()}`)
-          .transition()
-          .attr('r', 7)
-          .attr('fill-opacity', 1)
-        }
-        
-      }
 
-      function mouseout(){
-        d3.selectAll(`.line-series`).style('stroke-width', 2);
-        d3.selectAll(`.series-labels`).style('stroke-width', 2)
-          .transition()
-          .style('font-size', '1em')
-          .attr('x', 7);
-        d3.selectAll(`.circle-series`)
-        .transition()
-        .attr('r', 3)
-        .attr('fill-opacity', 0.7)
-      }
-
-    // Draw area
-    svg.selectAll('.area-series')
-    .data(lineChartData.series)
-    .enter()
-    .append('path')
-    .attr('class', d => `area-series ${d.name.toLowerCase()}`)
-    .attr('d', d => areaGen(d.values))
-    .style('fill', "none");
+    var tooltip = d3
+    .select(".seasons-container")
+    .append("div")
+    .attr("class", "tooltip-seasons")
+    .style("opacity", 0);
 
   }
+  function mouseover(d, i){
+    if(i.lblClass!=null){
+      d3.selectAll(`.${i.lblClass.toLowerCase()}`).style('stroke-width', 5)
+      d3.selectAll(`.${i.lblClass.toLowerCase()}`)
+        .transition()
+        .attr('x', 10)
+        .style('font-size', '1.5em')
+      d3.selectAll(`.circle-series.${i.lblClass.toLowerCase()}`)
+        .transition()
+        .attr('r', 7)
+        .attr('fill-opacity', 1)
+      d3.selectAll(`.circle-series.${i.lblClass.toLowerCase()}`)
+        .transition()
+        .attr('r', 6)
+        .attr('fill-opacity', 1)
+    }
+    
+  }
 
+  function mouseout(){
+    d3.selectAll(`.line-series`).style('stroke-width', 2);
+    d3.selectAll(`.series-labels`).style('stroke-width', 2)
+      .transition()
+      .style('font-size', '1em')
+      .attr('x', 7);
+    d3.selectAll(`.circle-series`)
+      .transition()
+      .attr('r', 3)
+      .attr('fill-opacity', 0.7)
+    d3.selectAll(`.circle-series`)
+      .transition()
+      .attr('r', 3)
+      .attr('fill-opacity', 0.7)
+  }
   
 
 
