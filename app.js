@@ -274,7 +274,7 @@ function ready(data) {
   const scatterDataAutumn2022 = prepareScatterPlotData(chartDataAutumn2022);
 
   const margin = { top: 80, right: 40, bottom: 40, left: 70 };
-  const width = 450 - margin.right - margin.left;
+  const width = 400 - margin.right - margin.left;
   const height = 380 - margin.top - margin.bottom;
 
   // Draw base.
@@ -605,7 +605,7 @@ function ready(data) {
   .attr("transform", `translate(0, -40)`)
   .append("text");
 // first title
-headerScatter.append("tspan").transition().text("Top 5 countries in total cases per continent");
+headerScatter.append("tspan").transition().text("Top 5 countries in total cases");
 
 const subheaderScatter = headerScatter.append("tspan");
 
@@ -668,7 +668,7 @@ subheaderScatter
       .attr("transform", `translate(0, -40)`)
       .append("text");
     // first title
-    headerScatter1.append("tspan").transition().text("Top 5 countries in total cases per continent");
+    headerScatter1.append("tspan").transition().text("Top 5 countries in total cases");
     
     const subheaderScatter1 = headerScatter1.append("tspan");
 
@@ -732,7 +732,7 @@ subheaderScatter
       .attr("transform", `translate(0, -40)`)
       .append("text");
     // first title
-    headerScatter2.append("tspan").transition().text("Top 5 countries in total cases per continent");
+    headerScatter2.append("tspan").transition().text("Top 5 countries in total cases");
     
     const subheaderScatter2 = headerScatter2.append("tspan");
 
@@ -795,7 +795,7 @@ subheaderScatter
   .attr("transform", `translate(0, -40)`)
   .append("text");
 // first title
-headerScatter3.append("tspan").transition().text("Top 5 countries in total cases per continent");
+headerScatter3.append("tspan").transition().text("Top 5 countries in total cases");
 
 const subheaderScatter3 = headerScatter3.append("tspan");
 
