@@ -74,7 +74,7 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
    const u = svg.selectAll('.line-series')
    .data(lineChartData.series, function(d){return d.series})
 
-  // Updata the line
+  // Update the line
   u
   .join(
     enter => enter
@@ -277,11 +277,7 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
           exit => exit.remove()
   
         )
-
-        
-
-        
-        
+     
         
   }
   function drawLineChartVacs(lineChartData, xScale, yScale, svg, xAxis, yAxis){
@@ -324,7 +320,7 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
     const u = svg.selectAll('.line-series')
     .data(lineChartData.series, function(d){return d.series})
 
-    // Updata the line
+    // Update the line
     u
     .join(
       enter => enter
@@ -336,10 +332,11 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
         .attr('d', d => lineGen(d.values))
         .attr("stroke-width", 2)
         .style('stroke', d => d.color)
-         
+        
     )
+    .on('mouseover', mouseover)
+    .on("mouseout", mouseout);
     
-
     svg
     .selectAll('.series-labels')
     .data(lineChartData.series, function(d){return d.series})
@@ -357,6 +354,35 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis){
         .style('fill', d => d.color),
       
     )
+    .on('mouseover', mouseover)
+    .on("mouseout", mouseout);
+
+      function mouseover(d, i){
+        if(i.lblClass!=null){
+          d3.selectAll(`.${i.lblClass.toLowerCase()}`).style('stroke-width', 5)
+          d3.selectAll(`.${i.lblClass.toLowerCase()}`)
+            .transition()
+            .attr('x', 10)
+            .style('font-size', '1.5em')
+          d3.selectAll(`.circle-series.${i.lblClass.toLowerCase()}`)
+          .transition()
+          .attr('r', 7)
+          .attr('fill-opacity', 1)
+        }
+        
+      }
+
+      function mouseout(){
+        d3.selectAll(`.line-series`).style('stroke-width', 2);
+        d3.selectAll(`.series-labels`).style('stroke-width', 2)
+          .transition()
+          .style('font-size', '1em')
+          .attr('x', 7);
+        d3.selectAll(`.circle-series`)
+        .transition()
+        .attr('r', 3)
+        .attr('fill-opacity', 0.7)
+      }
 
     // Draw area
     svg.selectAll('.area-series')

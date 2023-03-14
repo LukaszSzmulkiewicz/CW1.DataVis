@@ -92,7 +92,6 @@ function drawPieChartsVacs(data, g, radius) {
   };
   const mousemovePie = function (event, d) {
     const pieData = d3.select(this);
-    console.log("data in mouse move", d)
     tooltip
       .html(`${d.data.label}: ${d.data.value}`)
       .style("left", event.x  + "px")
@@ -136,7 +135,6 @@ function drawPieChartsVacs(data, g, radius) {
     })
     .on("mousemove", function (event, d) {
       const pieData = d3.select(this);
-      console.log("data in mouse move", d)
       d3.select(".tooltip-vacs").style("opacity", 0.9)
       .html(`${d.data.label}: ${d.data.value}`)
       .style("left", event.pageX + "px")
