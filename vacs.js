@@ -66,6 +66,7 @@ function ready(data) {
   const svg = d3
     .select(`.line-chart-container-vacs`)
     .append("svg")
+    .attr("class","zoom")
     .attr("width", width + margin.right + margin.left)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
@@ -221,7 +222,7 @@ svg3.append("rect")
   .attr("width", "70%")
   .attr("height", "100%")
   .attr("fill", "url(#bg-image-vacs1)")
-  .attr("x", 20)
+  .attr("x", 10)
   .attr("y", -60)
   .attr("opacity", 0.15)
   .on("mouseout", imageMouseOut);
@@ -321,7 +322,7 @@ svg5.append("rect")
   .attr("width", "70%")
   .attr("height", "100%")
   .attr("fill", "url(#bg-image-vacs2)")
-  .attr("x", 20)
+  .attr("x", 10)
   .attr("y", -60)
   .attr("opacity", 0.3)
   .on("mouseout", imageMouseOut);
@@ -421,7 +422,7 @@ svg7.append("rect")
   .attr("width", "70%")
   .attr("height", "100%")
   .attr("fill", "url(#bg-image-vacs3)")
-  .attr("x", 20)
+  .attr("x", 10)
   .attr("y", -60)
   .attr("opacity", 0.15)
   .on("mouseout", imageMouseOut);
@@ -475,6 +476,7 @@ svg7.append("rect")
   
   // adding pie charts
   addPieCharts(groupByLocation);
+  
 
 }
 function type(d) {
@@ -519,5 +521,5 @@ function imageMouseOut() {
     .transition()
     .duration(750)
     .attr("opacity", 1)
-    .attr("x", 50);
+    .attr("x", 10);
 }

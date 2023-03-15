@@ -1,6 +1,24 @@
+body {
+    background-color: #faf7f7;
+}
+
 h1, h2, h3 {
     text-align: center;
     font-family:'Avenir', sans-serif;
+}
+
+li {
+    text-align:left;
+    margin-left: 300px;
+    font-family:'Avenir', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    padding-bottom: 30px;
+}
+
+ul {
+    display: flex;
+    justify-content: center;
 }
 
 #project-container{
@@ -128,7 +146,8 @@ button:hover {
   }
   
   .x .tick line {
-    stroke: white;
+    stroke: lightgrey;
+    stroke-dasharray: 5;
   }
 
   .image-pulse {
@@ -140,7 +159,7 @@ button:hover {
       opacity: 0.15;
     }
     50% {
-      opacity: 0.4;
+      opacity: 0.5;
     }
     100% {
       opacity: 0.15;

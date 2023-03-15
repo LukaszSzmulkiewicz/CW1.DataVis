@@ -17,7 +17,7 @@ var title = svg
   .attr("font-size", "19pt")
   .attr("fill", "black")
   .attr("x", 300)
-  .attr("y", 720);
+  .attr("y", 650);
 
 var projection = d3
   .geoMercator()
@@ -100,7 +100,17 @@ function dataLoaded(results) {
     .attr("class", "tooltip")
     .style("opacity", 0);
 
+  // map zoom
+    let zoom = d3.zoom()
+    .on('zoom', handleZoom);
 
+  function handleZoom(e) {
+    d3.select('svg g')
+      .attr('transform', e.transform);
+  }
+
+    d3.select('svg')
+      .call(zoom);
 
   /*
    * Bar chart visualization
@@ -383,6 +393,7 @@ function updateBarChart(data, svgChart, yScaleBar, xScaleBar, color, densities, 
 
      // Create a update selection: bind to the new data
    const u = svgChart.selectAll('.bar-series')
+   
    .data(data, d => d.country)
   // draw bars
     u

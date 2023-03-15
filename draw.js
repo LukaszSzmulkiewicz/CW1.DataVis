@@ -18,6 +18,7 @@
       .text(text)
     return label;
   }
+  
 function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subheader, text){
     
         // line generator 
@@ -126,18 +127,9 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
        .duration(1000)
        .call(yAxisScatter);
          
-   
-       // Draw header.
-    const header = svgScatter
-      .append('g')
-      .attr('class', 'scatter-header')
-      .attr('transform', `translate(5, -40)`)
-      .append('text')
-
-          // Rotate xAxis ticks
+    // Rotate xAxis ticks
       d3.selectAll(".xAxis .tick text")
       .attr("transform", "rotate(-22)")
-
 
 
     // Subheader content.
@@ -179,7 +171,6 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
           exit => exit.remove()
         )
         .on("mousemove", function (event, d) {
-          console.log("circles data", d)
           d3.select(this).transition().attr('r', 8)
           d3.select(".tooltip-seasons")
             .html(
@@ -212,7 +203,6 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
         
   }
   function drawLineChartVacs(lineChartData, xScale, yScale, svg, xAxis, yAxis){
-     
 
           // line generator 
     const lineGen = d3
@@ -281,7 +271,6 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
     .on('mouseover', mouseover)
     .on("mouseout", mouseout)
 
-
     var tooltip = d3
     .select(".seasons-container")
     .append("div")
@@ -295,7 +284,9 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
     .attr("transform", `translate(70, -40)`)
     .append("text");
   // first title
-  header.append("tspan").transition().text("Total cases per houndred");
+  header.append("tspan").transition().text("Total cases per hundred");
+
+
 
   }
   function mouseover(d, i){
