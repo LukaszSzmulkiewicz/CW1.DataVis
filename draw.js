@@ -58,7 +58,8 @@ function updateLineChart(lineChartData, xScale, yScale, svg, xAxis, yAxis, subhe
       .attr("fill", "none")
       .attr('d', d => lineGen(d.values))
       .attr("stroke-width", 2)
-      .style('stroke', d => d.color),
+      .style('stroke', d => d.color)
+      ,
       
       
     update => update

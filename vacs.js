@@ -101,25 +101,28 @@ function ready(data) {
 
    // Defining the pattern for the background image
      const patternVacs = svg.append("defs")
-     .append("pattern")
-     .attr("id", "bg-image-vacs")
-     .attr("width", 1)
-     .attr("height", 1)
-     .append("image")
-     .attr("xlink:href", "data/gibraltar.jpg")
-     .attr("width", "70%")
-     .attr("height", "100%");
+      .append("pattern")
+      .attr("id", "bg-image-vacs")
+      .attr("width", 1)
+      .attr("height", 1)
+      .append("image")
+      .attr("xlink:href", "data/gibraltar.jpg")
+      .attr("width", "70%")
+      .attr("height", "100%");
  
    // Set the background image for the SVG
    svg.append("rect")
-     .attr("x", 0)
-     .attr("y", 0)
-     .attr("width", "70%")
-     .attr("height", "100%")
-     .attr("fill", "url(#bg-image-vacs)")
-     .attr("x", 20)
-     .attr("y", -60)
-     .attr("opacity", 0.15);
+      .attr("class", "image-pulse") 
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", "70%")
+      .attr("height", "100%")
+      .attr("fill", "url(#bg-image-vacs)")
+      .attr("x", 20)
+      .attr("y", -60)
+      .attr("opacity", 0.15)
+      .on("mouseout", imageMouseOut);
+  
 
   // Draw base svg 2.
   const svg1 = d3
@@ -212,6 +215,7 @@ function ready(data) {
 
 // Set the background image for the SVG
 svg3.append("rect")
+  .attr("class", "image-pulse") 
   .attr("x", 0)
   .attr("y", 0)
   .attr("width", "70%")
@@ -219,7 +223,9 @@ svg3.append("rect")
   .attr("fill", "url(#bg-image-vacs1)")
   .attr("x", 20)
   .attr("y", -60)
-  .attr("opacity", 0.15);
+  .attr("opacity", 0.15)
+  .on("mouseout", imageMouseOut);
+  
   // Draw base svg 2.
   const svg4 = d3
     .select(`.line-chart-container-vacs1-other`)
@@ -309,6 +315,7 @@ svg3.append("rect")
 
 // Set the background image for the SVG
 svg5.append("rect")
+  .attr("class", "image-pulse") 
   .attr("x", 0)
   .attr("y", 0)
   .attr("width", "70%")
@@ -316,7 +323,8 @@ svg5.append("rect")
   .attr("fill", "url(#bg-image-vacs2)")
   .attr("x", 20)
   .attr("y", -60)
-  .attr("opacity", 0.3);
+  .attr("opacity", 0.3)
+  .on("mouseout", imageMouseOut);
 
   // Draw base svg 2.
   const svg6 = d3
@@ -407,6 +415,7 @@ svg5.append("rect")
 
 // Set the background image for the SVG
 svg7.append("rect")
+  .attr("class", "image-pulse") 
   .attr("x", 0)
   .attr("y", 0)
   .attr("width", "70%")
@@ -414,8 +423,8 @@ svg7.append("rect")
   .attr("fill", "url(#bg-image-vacs3)")
   .attr("x", 20)
   .attr("y", -60)
-  .attr("opacity", 0.15);
-
+  .attr("opacity", 0.15)
+  .on("mouseout", imageMouseOut);
 
 
   // Draw base svg 2.
@@ -498,3 +507,17 @@ d3.csv("data/vacs.csv", type).then((res) => {
   console.log("res", res);
   ready(res);
 });
+function imageMouseOut() {
+  d3.select(this).transition()
+    .duration(750)
+    .attr("opacity", 0)
+    .attr("x", -150)
+    .transition()
+    .duration(1000)
+    .attr("opacity", 1)
+    .attr("x", 150)
+    .transition()
+    .duration(750)
+    .attr("opacity", 1)
+    .attr("x", 50);
+}

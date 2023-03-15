@@ -2,6 +2,11 @@ h1, h2, h3 {
     text-align: center;
     font-family:'Avenir', sans-serif;
 }
+
+#project-container{
+    width: 1900px;
+    height: inherit;
+}
 .tooltip-vacs, .tooltip, .tooltip-chart, .tooltip-seasons{
     position: absolute;
     text-align: center;
@@ -125,4 +130,22 @@ button:hover {
   .x .tick line {
     stroke: white;
   }
+
+  .image-pulse {
+    animation: pulse 3s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      opacity: 0.15;
+    }
+    50% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 0.15;
+    }
+  }
+
+  
   

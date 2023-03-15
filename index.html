@@ -16,110 +16,112 @@
     <script type="module" src="./app.js"></script>
     <script type="module" src="./vacs.js"></script>
     <script type="module" src="./map.js"></script>
-	<h1>Covid vs Population Density in Europe</h1>
-	<div class="chart-row">
-		<div class="chart-column">
-			<h3>Density Filter: </h3>
-			<div class="chart-row">
-				<button class="filter" data-name="50">Up to 50 people/ km</button>
-				<button class="filter" data-name="100">Up to 100 people/ km</button>
-				<button class="filter" data-name="150">Up to 150 people/ km</button>
+	<div id="project-container">
+		<h1>Covid vs Population Density in Europe</h1>
+		<div class="chart-row">
+			<div class="chart-column">
+				<h3>Density Filter: </h3>
+				<div class="chart-row">
+					<button class="filter" data-name="50">Up to 50 people/ km</button>
+					<button class="filter" data-name="100">Up to 100 people/ km</button>
+					<button class="filter" data-name="150">Up to 150 people/ km</button>
+				</div>
+				<div class="chart-row">
+					<button class="filter" data-name="200">Up to 200 people/ km</button>
+					<button class="filter" data-name="300">Up to 300 people/ km</button>
+					<button class="filter" data-name="0">Full Density</button>
+				</div>
+	
+				<div class="map-container"></div>
 			</div>
-			<div class="chart-row">
-				<button class="filter" data-name="200">Up to 200 people/ km</button>
-				<button class="filter" data-name="300">Up to 300 people/ km</button>
-				<button class="filter" data-name="0">Full Density</button>
+			<div class="chart-column">
+			<input type="button" id="brush-button" value="Turn Brush ON">
+			<div class="map-chart-container"></div>
 			</div>
-
-			<div class="map-container"></div>
 		</div>
-		<div class="chart-column">
-		<input type="button" id="brush-button" value="Turn Brush ON">
-		<div class="map-chart-container"></div>
-		</div>
-	</div>
-	<h1>Covid Data in Seasons Across The Globe (2020 - 2022) UTC vs GDP per capita</h1>
-	<div class="seasons-container">
+		<h1>Covid Data in Seasons Across The Globe (2020 - 2022) UTC vs GDP per capita</h1>
+		<div class="seasons-container">
+				<div class="chart-row">
+					<div class="chart-column">
+						<div id="scatter-plot" class="scatter-plot-container"></div>
+					</div>
+					<div class="chart-column">
+						<div class="chart-inner-row">
+							<button id="seasons" class="2020" data-name="twenty">Winter 2020</button>
+							<button id="seasons" class="2021" data-name="twentyone">Winter 2021</button>
+							<button id="seasons" class="2022" data-name="twentytwo">Winter 2022</button>
+						</div>
+						<div class="line-chart-container"></div>
+					</div>
+					<div class="chart-column">
+						<div class="chart-inner-row">
+							<button id="seasons" class="2020" data-name="twenty">Spring 2020</button>
+							<button id="seasons" class="2021" data-name="twentyone">Spring 2021</button>
+							<button id="seasons" class="2022" data-name="twentytwo">Spring 2022</button>
+						</div>
+						<div class="line-chart-container1"></div>
+					</div>
+				<div class="chart-column">
+					<div id="scatter-plot" class="scatter-plot-container1"></div>
+				</div>
 			<div class="chart-row">
 				<div class="chart-column">
-					<div id="scatter-plot" class="scatter-plot-container"></div>
+					<div id="scatter-plot" class="scatter-plot-container2"></div>
 				</div>
 				<div class="chart-column">
 					<div class="chart-inner-row">
-						<button id="seasons" class="2020" data-name="twenty">Winter 2020</button>
-						<button id="seasons" class="2021" data-name="twentyone">Winter 2021</button>
-						<button id="seasons" class="2022" data-name="twentytwo">Winter 2022</button>
+						<button id="seasons" class="2020" data-name="twenty">Summer 2020</button>
+						<button id="seasons" class="2021" data-name="twentyone">Summer 2021</button>
+						<button id="seasons" class="2022" data-name="twentytwo">Summer 2022</button>
 					</div>
-					<div class="line-chart-container"></div>
+					<div class="line-chart-container2"></div>
 				</div>
 				<div class="chart-column">
 					<div class="chart-inner-row">
-						<button id="seasons" class="2020" data-name="twenty">Spring 2020</button>
-						<button id="seasons" class="2021" data-name="twentyone">Spring 2021</button>
-						<button id="seasons" class="2022" data-name="twentytwo">Spring 2022</button>
+						<button id="seasons" class="2020" data-name="twenty">Autumn 2020</button>
+						<button id="seasons" class="2021" data-name="twentyone">Autumn 2021</button>
+						<button id="seasons" class="2022" data-name="twentytwo">Autumn 2022</button>
 					</div>
-					<div class="line-chart-container1"></div>
+					<div class="line-chart-container3"></div>
 				</div>
-			<div class="chart-column">
-				<div id="scatter-plot" class="scatter-plot-container1"></div>
-			</div>
-		<div class="chart-row">
-			<div class="chart-column">
-				<div id="scatter-plot" class="scatter-plot-container2"></div>
-			</div>
-			<div class="chart-column">
-				<div class="chart-inner-row">
-					<button id="seasons" class="2020" data-name="twenty">Summer 2020</button>
-					<button id="seasons" class="2021" data-name="twentyone">Summer 2021</button>
-					<button id="seasons" class="2022" data-name="twentytwo">Summer 2022</button>
+				<div class="chart-column">
+					<div id="scatter-plot" class="scatter-plot-container3"></div>
 				</div>
-				<div class="line-chart-container2"></div>
-			</div>
-			<div class="chart-column">
-				<div class="chart-inner-row">
-					<button id="seasons" class="2020" data-name="twenty">Autumn 2020</button>
-					<button id="seasons" class="2021" data-name="twentyone">Autumn 2021</button>
-					<button id="seasons" class="2022" data-name="twentytwo">Autumn 2022</button>
-				</div>
-				<div class="line-chart-container3"></div>
-			</div>
-			<div class="chart-column">
-				<div id="scatter-plot" class="scatter-plot-container3"></div>
 			</div>
 		</div>
-	</div>
-	<h1>Vaccinations and Management of COVID Outbreak in Selected Countries</h1>
-	<div class="vacs-container">
-		<div class="chart-row">
+		<h1>Vaccinations and Management of COVID Outbreak in Selected Countries</h1>
+		<div class="vacs-container">
+			<div class="chart-row">
+				<div class="chart-column">
+					<h2>Gibraltar country with the most:</h2>
+					<h3><span style="color: green;">vaccinations</span> per hundred in the world</h3>
+					<div class="line-chart-container-vacs"></div>
+					<div class="line-chart-container-vacs-other"></div>
+					<div id="pie-chart" class="pie-chart-container"></div>
+				</div>
 			<div class="chart-column">
-				<h2>Gibraltar country with the most:</h2>
-				<h3><span style="color: green;">vaccinations</span> per hundred in the world</h3>
-				<div class="line-chart-container-vacs"></div>
-				<div class="line-chart-container-vacs-other"></div>
-				<div id="pie-chart" class="pie-chart-container"></div>
+				<h2>Peru country with the most:</h2>
+				<h3><span style="color: red;">deaths</span> per million in the world</h3>
+				<div class="line-chart-container-vacs1"></div>
+				<div class="line-chart-container-vacs1-other"></div>
+				<div class="pie-chart-container1"></div>
+				
 			</div>
-		<div class="chart-column">
-			<h2>Peru country with the most:</h2>
-			<h3><span style="color: red;">deaths</span> per million in the world</h3>
-			<div class="line-chart-container-vacs1"></div>
-			<div class="line-chart-container-vacs1-other"></div>
-			<div class="pie-chart-container1"></div>
+			<div class="chart-column">
+				<h2>Cyprus country with the most:</h2>
+				<h3><span style="color: dodgerblue;">cases</span> per million in the world</h3>
+				<div class="line-chart-container-vacs2"></div> 
+				<div class="line-chart-container-vacs2-other"></div>
+				<div class="pie-chart-container2"></div>
 			
-		</div>
-		<div class="chart-column">
-			<h2>Cyprus country with the most:</h2>
-			<h3><span style="color: dodgerblue;">cases</span> per million in the world</h3>
-			<div class="line-chart-container-vacs2"></div> 
-			<div class="line-chart-container-vacs2-other"></div>
-			<div class="pie-chart-container2"></div>
-		
-		</div>
-		<div class="chart-column">
-			<h2>Germany country with the most:</h2>
-			<h3><span style="color: orange;">hospital admissions</span> in the world</h3>
-			<div class="line-chart-container-vacs3"></div>
-			<div class="line-chart-container-vacs3-other"></div>
-			<div class="pie-chart-container3"></div>
+			</div>
+			<div class="chart-column">
+				<h2>Germany country with the most:</h2>
+				<h3><span style="color: orange;">hospital admissions</span> in the world</h3>
+				<div class="line-chart-container-vacs3"></div>
+				<div class="line-chart-container-vacs3-other"></div>
+				<div class="pie-chart-container3"></div>
+			</div>
 		</div>
 	</div>
 	

@@ -83,6 +83,15 @@ function addPieCharts(data) {
 
 function drawPieChartsVacs(data, g, radius) {
 
+  var onZoom = d3.zoom()
+  .on("zoom", zoomFunction);
+
+onZoom(g);
+
+function zoomFunction(event) {
+  gCircles.attr("transform", event.transform);
+}
+
   console.log("data in the pie chart", data)
     // Defining the pattern for the background image
     const pattern = g.append("defs")
@@ -104,13 +113,14 @@ function drawPieChartsVacs(data, g, radius) {
     .attr("fill", "url(#bg-image)")
     .attr("x", -225)
     .attr("y", -225)
-    .attr("opacity", 0.4);;
-
-  // Three function that change the tooltip when user hover / move / leave a cell
-  const mouseoverPie = function (event, d) {
-    tooltip.style("opacity", 1);
-    d3.select(this).style("stroke", "black").style("opacity", 1);
-  };
+    .attr("opacity", 0.4)
+    .on("mouseout", function() {
+      d3.select(this).transition()
+        .duration(1000)
+        .attrTween("transform", function() {
+          return d3.interpolateString("rotate(0)", "rotate(360)");
+        });
+    });;
 
   // Set the colors for the pie chart slices
   const colors = d3
@@ -139,19 +149,29 @@ function drawPieChartsVacs(data, g, radius) {
     .style("stroke-width", "2px")
     .style("opacity", 0.7)
     .on("mouseover", function (event, d) {
-      d3.select().style("opacity", 1);
-      d3.select(this).style("stroke", "black").style("opacity", 1);
+      d3.select(this)
+        .transition()
+        .duration(500)
+        .attr("transform", `translate(0, 25) rotate(45)`)
+        .style("stroke", "black")
+        .style("opacity", 1);
     })
     .on("mousemove", function (event, d) {
       const pieData = d3.select(this);
-      d3.select(".tooltip-vacs").style("opacity", 0.9)
-      .html(`${d.data.label}: ${d.data.value}`)
-      .style("left", event.pageX -60 + "px")
-      .style("top", event.pageY - 50 + "px");
+      d3.select(".tooltip-vacs")
+        .style("opacity", 0.9)
+        .html(`${d.data.label}: ${d.data.value}`)
+        .style("left", event.pageX - 60 + "px")
+        .style("top", event.pageY - 50 + "px");
     })
     .on("mouseleave", function (event, d) {
+      d3.select(this)
+        .transition()
+        .duration(500)
+        .attr("transform", `translate(0, 0) rotate(0)`)
+        .style("stroke", "none")
+        .style("opacity", 0.8);
       d3.select(".tooltip-vacs").style("opacity", 0);
-      d3.select(this).style("stroke", "none").style("opacity", 0.8);
     });
 
         // create a tooltip
@@ -182,7 +202,6 @@ function drawPieChartsVacs(data, g, radius) {
   .append("text");
 // first title
 header.append("tspan").transition().text(`Population: ${data[3].population}`);
-
 
 
 }
