@@ -21,9 +21,9 @@ var title = svg
 
 var projection = d3
   .geoMercator()
-  .center([13, 52]) //comment centrer la carte, longitude, latitude
-  .translate([width / 2, height / 2]) // centrer l'image obtenue dans le svg
-  .scale([width / 1.5]); // zoom, plus la valeur est petit plus le zoom est gros
+  .center([13, 52])  
+  .translate([width / 2, height / 2]) 
+  .scale([width / 1.5]); 
 
 var path = d3.geoPath().projection(projection);
 
@@ -33,7 +33,6 @@ function loadData() {
   var promises = [];
 
   promises.push(d3.json("data/europe.json"));
-  promises.push(d3.tsv("data/sapops.txt"));
   promises.push(d3.csv("data/europe.csv"));
 
   Promise.all(promises).then(dataLoaded);
@@ -41,15 +40,10 @@ function loadData() {
 
 function dataLoaded(results) {
   var countryData = results[0];
-  console.log("country data", countryData);
-  var populationData = results[1];
-  var densityData = results[2];
-  var populations = {};
+  var densityData = results[1];
   var densities = {};
 
-  populationData.forEach((x) => (populations[x.id] = +x.population));
   densityData.forEach((x) => (densities[x.iso_code] = +x.population_density));
-  console.log("country data features", countryData);
   var color = getColors(densityData);
 
   svg
@@ -73,7 +67,6 @@ function dataLoaded(results) {
       const className = d.properties.name.split(" ")[0];
       d3.selectAll(`.${className}`).style("fill", "dodgerblue");
       var density = densities[d.id] ? densities[d.id].toLocaleString() : "N/A";
-      console.log("I am in the tooltip");
       d3.select(".tooltip")
         .html(
           "<strong>" + d.properties.name +
@@ -233,11 +226,11 @@ function dataLoaded(results) {
 updateBarChart(barChartData, svgChart, yScaleBar, xScaleBar, color, densities,xAxis, yAxis)
 
 
-  // Create a variable to hold the brush object
+  // variable to hold the brush object
 var brush = null;
 var brushEnabled = false; // initialize brush state to disabled
 
-// Create a function to initialize the brush
+// Function to initialize the brush
 function initBrush() {
   brush = d3
   .brush()
@@ -245,10 +238,10 @@ function initBrush() {
 
 }
 
-// Call the initBrush function to initialize the brush
+// Calling the initBrush function to initialize the brush
 initBrush();
 
-// Create a button and bind the brush function to its click event
+//  button for the brush function bind with its click event
 d3.select("#brush-button").on("click", function () {
   // Toggle the brush state
   brushEnabled = !brushEnabled;
@@ -280,7 +273,7 @@ d3.select("#brush-button").on("click", function () {
   }
 });
 
-// Highlight selected countries.
+// Highlight selected countries on hover.
 function highlightSelected(data) {
   const selectedIDs = data.map(d => d.id);
   d3.selectAll('.map-path')
@@ -291,7 +284,7 @@ function highlightSelected(data) {
     .filter(d => !selectedIDs.includes(d.id))
     .style("fill", (d) =>color(densities[d.id]))
 }
-// Highlight selected countries.
+// Function used to Highlight selected countries when using filter.
 function highlightSelectedFilter(data) {
   const selectedIDs = data.map(d => d.id);
   d3.selectAll('.map-path')
@@ -311,16 +304,15 @@ function brushed(event) {
       const [[x0, y0], [x1, y1]] = selection;
       const selected = barChartData.filter(
         d => y0 <= yScaleBar(d.country) && y1 > yScaleBar(d.country))
-          // updateSelected(selected);
       highlightSelected(selected);
     } else {
-      // updateSelected([]);
       highlightSelected([]);
     }
 
   }
 }
 
+// function used to prepare color scale for map and bar chart
 function getColors(densityData) {
   var sortedDensities = densityData
     .map((x) => parseInt(x.population_density))
@@ -328,7 +320,6 @@ function getColors(densityData) {
       return parseInt(a) - parseInt(b);
     });
   var maxDensity = d3.max(sortedDensities);
-  console.log("max density", maxDensity);
 
   var oranges = ["white"]; // create lower bound for thresholds
 
@@ -341,6 +332,7 @@ function getColors(densityData) {
   return d3.scaleThreshold().domain(sortedDensities).range(oranges);
 }
 
+// function used to process data for bar chart 
 function prepareBarChartData(data) {
   // converting the map to the array of objects key at index 0 and value at index 1
   const dataArray = data.map((d) => ({
@@ -353,6 +345,7 @@ function prepareBarChartData(data) {
   return dataArray;
 }
 
+// function used to shorten longer labels
 function formatTickLabel(d) {
   // Check if the text is longer than the maximum length
   if (d.length > 15) {
@@ -363,7 +356,7 @@ function formatTickLabel(d) {
     return d;
   }
 }
-
+// function for formatting bar chart ticks 
 function formatTicks(d) {
   // returns a string value 30G, 50G ...
   return d3
@@ -372,6 +365,8 @@ function formatTicks(d) {
     .replace("G", " bil")
     .replace("T", " tril");
 }
+
+// function used to draw bar chart, contains mouse events for tooltip and styling changes on hover
 function updateBarChart(data, svgChart, yScaleBar, xScaleBar, color, densities, xAxis, yAxis){
   const xMax = d3.max(data, (d) => d.cases);
     // Create the X axis:
@@ -391,7 +386,7 @@ function updateBarChart(data, svgChart, yScaleBar, xScaleBar, color, densities, 
     .style("font-size", "14px") // Set the font size to 16 pixels
     .style("font-weight", "bold");
 
-     // Create a update selection: bind to the new data
+    // Create a update selection: bind to the new data
    const u = svgChart.selectAll('.bar-series')
    
    .data(data, d => d.country)

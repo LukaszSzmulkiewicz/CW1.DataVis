@@ -445,6 +445,8 @@ function prepareLineChartDataVacsCases(data, country, colors) {
 
   return lineData;
 }
+
+// function used to prepare line chart data for the visualization of vaccinations  
 function prepareLineChartDataVacs(data, country, colors) {
   const grouped_country_data = d3.group(data.get(country), (d) => d.date);
 
@@ -626,7 +628,6 @@ function prepareLineChartDataVacs(data, country, colors) {
       lblPosition: [4, 65],
     });
   }
-
 
 
   // Create the lineData object

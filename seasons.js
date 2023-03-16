@@ -3,7 +3,6 @@ import {
   prepareLineChartData,
   formatTicks,
   prepareScatterPlotData,
-  filterDatesNew,
 } from "./data_prep.js";
 import {
   updateLineChart,
@@ -1029,10 +1028,6 @@ subheaderScatter3
   updateScatterPlot(scatterDataSpring2020, xScaleScatter1, yScaleScatter1, svgScatter1, xAxisScatter1, yAxisScatter1, subheaderScatter1, "Spring 2020");
   updateScatterPlot(scatterDataSummer2020, xScaleScatter2, yScaleScatter2, svgScatter2, xAxisScatter2, yAxisScatter2, subheaderScatter2, "Summer 2020");
   updateScatterPlot(scatterDataAutumn2020, xScaleScatter3, yScaleScatter3, svgScatter3, xAxisScatter3, yAxisScatter3, subheaderScatter3,"Autumn 2020");
-
-        // Rotate xAxis ticks
-      // d3.selectAll(".xAxis .tick text")
-      // .attr("transform", "rotate(-22)")
 
 }
 
