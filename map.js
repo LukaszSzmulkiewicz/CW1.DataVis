@@ -119,9 +119,6 @@ function dataLoaded(results) {
   const width = 800 - margin.right - margin.left;
   const height = 700 - margin.top - margin.bottom;
 
-  // getting the minimum and maximum of data with the extent
-  // const xExtent = d3.extent(barChartData, d => d.revenue)
-
   // the chart should start from 0 so getting a max
   const xMax = d3.max(barChartData, (d) => d.cases);
   console.log("x_MAx", xMax);
@@ -249,7 +246,6 @@ d3.select("#brush-button").on("click", function () {
   console.log(buttonValue);
   if(buttonValue === "Turn Brush ON"){
     d3.select("#brush-button").attr("value", "Turn Brush OFF");
-    brushEnabled = true;
   }else {
     d3.select("#brush-button").attr("value", "Turn Brush ON");
     brushEnabled = false;
@@ -399,7 +395,7 @@ function updateBarChart(data, svgChart, yScaleBar, xScaleBar, color, densities, 
         .duration(1500)  
         .attr("class", (d) => `bar-series ${d.country}`)
         .attr("y", (d) => yScaleBar(d.country))
-        .attr("width", (d) => xScaleBar(d.cases))
+        .attr("width", (d) => yScaleBar(d.cases))
         .attr("height", yScaleBar.bandwidth())
         .style("fill", "dodgerblue")
         .transition()
